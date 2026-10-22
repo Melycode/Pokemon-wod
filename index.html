@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon Doom Version</title>
+    <!-- Vinculamos tu archivo CSS -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Fuente pixel art retro de Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="contenedor-pantalla">
+        
+        <!-- Imágenes Responsive con <picture> -->
+        <picture>
+            <!-- Imagen VERTICAL para MÓVILES -->
+            <source media="(max-width: 768px)" srcset="https://res.cloudinary.com/dbadhyp7x/image/upload/v1792662314/Gemini_Generated_Image_7q0a337q0a337q0a_apnxwe.jpg">
+            <!-- Imagen HORIZONTAL para PC (Por defecto) -->
+            <img src="https://res.cloudinary.com/dbadhyp7x/image/upload/v1792400909/Gemini_Generated_Image_emhypgemhypgemhy_1_oxqgyx.jpg" alt="Fondo Pokémon Doom Version" class="imagen-fondo">
+        </picture>
+
+        <!-- Botón START Interactivo -->
+        <button id="btn-start" class="boton-start">
+            <div id="barra-progreso" class="barra-progreso"></div>
+            <span class="texto-start">START</span>
+        </button>
+
+        <!-- Capa oscura que apaga el fondo mientras estén las cookies -->
+        <div id="overlay-sombra" class="overlay-sombra"></div>
+
+        <!-- Banner de cookies estilo caja de diálogo de Pokémon -->
+        <div id="cookie-banner" class="cookie-banner">
+            <p>¡UN AVISO SALVAJE DE COOKIES APARECIÓ!<br><br>ESTA WEB USA COOKIES PARA GUARDAR TU PARTIDA. ¿QUÉ DEBERÍA HACER EL JUGADOR?</p>
+            <div class="cookie-botones">
+                <button id="btn-aceptar" class="btn-cookie">ACEPTAR</button>
+                <button id="btn-denegar" class="btn-cookie">HUIR</button>
+            </div>
+        </div>
+
+        <!-- Audios del proyecto (Asegúrate de tener los .mp3 en tu carpeta) -->
+        <audio id="audio-carga" src="sonido-start.mp3" preload="auto"></audio>
+        <audio id="audio-fondo" src="tema-fondo.mp3" loop preload="auto"></audio>
+        
+    </div>
+
+    <!-- Vinculamos tu archivo JS -->
+    <script src="script.js"></script>
+</body>
+</html>
