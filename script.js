@@ -233,7 +233,7 @@ startGameBtn.addEventListener('click', () => {
         return;
     }
     hideError();
-    alert(`¡Comenzando con ${players.length} jugadores, kbsa!`);
+    alert(`¡Comenzando con ${players.length} jugadores!`);
 });
 
 initSegments();
