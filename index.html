@@ -1,51 +1,78 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokémon Doom Version</title>
-    <!-- Vinculamos tu archivo CSS -->
     <link rel="stylesheet" href="styles.css">
-    <!-- Fuente pixel art retro de Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
-
-    <div class="contenedor-pantalla">
+    <div class="screen-container">
         
-        <!-- Imágenes Responsive con <picture> -->
-        <picture>
-            <!-- Imagen VERTICAL para MÓVILES -->
+        <picture id="start-bg">
             <source media="(max-width: 768px)" srcset="https://res.cloudinary.com/dbadhyp7x/image/upload/v1792662314/Gemini_Generated_Image_7q0a337q0a337q0a_apnxwe.jpg">
-            <!-- Imagen HORIZONTAL para PC (Por defecto) -->
-            <img src="https://res.cloudinary.com/dbadhyp7x/image/upload/v1792400909/Gemini_Generated_Image_emhypgemhypgemhy_1_oxqgyx.jpg" alt="Fondo Pokémon Doom Version" class="imagen-fondo">
+            <img src="https://res.cloudinary.com/dbadhyp7x/image/upload/v1792400909/Gemini_Generated_Image_emhypgemhypgemhy_1_oxqgyx.jpg" alt="Pokemon Doom Version Background" class="background-image">
         </picture>
 
-        <!-- Botón START Interactivo -->
-        <button id="btn-start" class="boton-start">
-            <div id="barra-progreso" class="barra-progreso"></div>
-            <span class="texto-start">START</span>
+        <img id="players-bg" src="https://res.cloudinary.com/dbadhyp7x/image/upload/v1793007613/image_10_qsruzy.png" alt="Players Screen Background" class="background-image hidden">
+
+        <button id="start-btn" class="start-button">
+            <div id="progress-bar" class="progress-bar"></div>
+            <span class="start-text">START</span>
         </button>
 
-        <!-- Capa oscura que apaga el fondo mientras estén las cookies -->
-        <div id="overlay-sombra" class="overlay-sombra"></div>
+        <div id="players-screen" class="players-screen hidden">
+            <div class="top-bar">
+                <button id="back-btn" class="back-btn">←</button>
+                <div class="step-badge">PASO 1 DE 2</div>
+            </div>
 
-        <!-- Banner de cookies estilo caja de diálogo de Pokémon -->
-        <div id="cookie-banner" class="cookie-banner">
-            <p>¡UN AVISO SALVAJE DE COOKIES APARECIÓ!<br><br>ESTA WEB USA COOKIES PARA GUARDAR TU PARTIDA. ¿QUÉ DEBERÍA HACER EL JUGADOR?</p>
-            <div class="cookie-botones">
-                <button id="btn-aceptar" class="btn-cookie">ACEPTAR</button>
-                <button id="btn-denegar" class="btn-cookie">HUIR</button>
+            <div class="players-card">
+                <div class="card-left">
+                    <h2 class="card-title">¿Quién juega?</h2>
+                    <p class="card-subtitle">Añade 16 nombres. Cada uno se llevará un Pokémon al azar.</p>
+
+                    <div class="input-group">
+                        <input type="text" id="player-input" class="player-input" placeholder="Escribe un nombre" maxlength="12">
+                        <button id="add-player-btn" class="add-player-btn">+</button>
+                    </div>
+
+                    <div id="error-message" class="error-message hidden">¡ERROR! MÁXIMO 16 JUGADORES</div>
+                </div>
+
+                <div class="card-right">
+                    <div class="progress-info">
+                        <span>NOMBRES</span>
+                        <span id="players-counter">0/16</span>
+                    </div>
+
+                    <div id="segments-bar" class="segments-bar"></div>
+
+                    <div id="names-grid" class="names-grid"></div>
+                </div>
+            </div>
+
+            <div class="bottom-actions">
+                <button id="fill-examples-btn" class="action-btn secondary-btn">RELLENAR CON EJEMPLOS</button>
+                <button id="start-game-btn" class="action-btn primary-btn">COMENZAR · FALTAN 16</button>
             </div>
         </div>
 
-        <!-- Audios del proyecto (Asegúrate de tener los .mp3 en tu carpeta) -->
-        <audio id="audio-carga" src="sonido-start.mp3" preload="auto"></audio>
-        <audio id="audio-fondo" src="tema-fondo.mp3" loop preload="auto"></audio>
+        <div id="shadow-overlay" class="shadow-overlay"></div>
+
+        <div id="cookie-banner" class="cookie-banner">
+            <p>A WILD COOKIE NOTICE APPEARED!<br><br>THIS SITE USES COOKIES TO SAVE YOUR GAME. WHAT SHOULD THE PLAYER DO?</p>
+            <div class="cookie-buttons">
+                <button id="btn-accept" class="cookie-btn">ACCEPT</button>
+                <button id="btn-deny" class="cookie-btn">RUN</button>
+            </div>
+        </div>
+
+        <audio id="loading-audio" src="sonido-start.mp3" preload="auto"></audio>
+        <audio id="background-audio" src="tema-fondo.mp3" loop preload="auto"></audio>
         
     </div>
-
-    <!-- Vinculamos tu archivo JS -->
     <script src="script.js"></script>
 </body>
 </html>

@@ -1,113 +1,240 @@
-const botonStart = document.getElementById('btn-start');
-const barraProgreso = document.getElementById('barra-progreso');
-const audioCarga = document.getElementById('audio-carga');
+const startBtn = document.getElementById('start-btn');
+const progressBar = document.getElementById('progress-bar');
+const loadingAudio = document.getElementById('loading-audio');
 
-const overlaySombra = document.getElementById('overlay-sombra');
+const startBg = document.getElementById('start-bg');
+const playersBg = document.getElementById('players-bg');
+
+const shadowOverlay = document.getElementById('shadow-overlay');
 const cookieBanner = document.getElementById('cookie-banner');
-const btnAceptar = document.getElementById('btn-aceptar');
-const btnDenegar = document.getElementById('btn-denegar');
-const audioFondo = document.getElementById('audio-fondo');
+const btnAccept = document.getElementById('btn-accept');
+const btnDeny = document.getElementById('btn-deny');
+const backgroundAudio = document.getElementById('background-audio');
 
-// --- 1. LÓGICA DEL BANNER DE COOKIES Y AUDIO DE FONDO ---
+const playersScreen = document.getElementById('players-screen');
+const backBtn = document.getElementById('back-btn');
+const playerInput = document.getElementById('player-input');
+const addPlayerBtn = document.getElementById('add-player-btn');
+const errorMessage = document.getElementById('error-message');
+const playersCounter = document.getElementById('players-counter');
+const segmentsBar = document.getElementById('segments-bar');
+const namesGrid = document.getElementById('names-grid');
+const fillExamplesBtn = document.getElementById('fill-examples-btn');
+const startGameBtn = document.getElementById('start-game-btn');
 
-function iniciarMusicaFondo() {
-    audioFondo.volume = 0.3; // Volumen al 30%
-    audioFondo.play().catch(e => console.log("Autoplay bloqueado hasta interacción", e));
+const maxPlayers = 16;
+let players = [];
+const exampleNames = [
+    "Julián", "Melisa", "Nacho", "Alfonso", 
+    "Jaime", "Luis", "Daniel", "Dani", 
+    "Manuel", "Nerea", "Carlos", "Diego", 
+    "Alba", "Brandon", "Rafel", "Paloma"
+];
+
+function startBackgroundMusic() {
+    backgroundAudio.volume = 0.3;
+    backgroundAudio.play().catch(e => console.log("Autoplay blocked until interaction", e));
 }
 
-function gestionarCookies() {
-    // Al quitar el localStorage, las cookies saldrán CADA VEZ que recargues la web
+function manageCookies() {
     cookieBanner.style.display = 'none';
-    overlaySombra.style.display = 'none';
-
-    // Inicia el temazo de fondo
-    iniciarMusicaFondo();
+    shadowOverlay.style.display = 'none';
+    startBackgroundMusic();
 }
 
-// Los dos botones hacen lo mismo: quitan el cartel y ponen la música
-btnAceptar.addEventListener('click', gestionarCookies);
-btnDenegar.addEventListener('click', gestionarCookies);
+btnAccept.addEventListener('click', manageCookies);
+btnDeny.addEventListener('click', manageCookies);
 
+let interval = null;
+let emptyInterval = null;
+let progress = 0;
+const audioStart = 1.5; 
 
-// --- 2. LÓGICA DEL BOTÓN START ---
-
-let intervalo = null;
-let intervaloVaciar = null;
-let progreso = 0;
-
-// Aquí le decimos que empiece a reproducir exactamente en el segundo 1.5
-const inicioAudio = 1.5; 
-
-function empezarPresion(e) {
+function startPress(e) {
     if (e.cancelable) e.preventDefault();
-    if (intervalo) return; 
+    if (interval) return; 
 
-    if (intervaloVaciar) {
-        clearInterval(intervaloVaciar);
-        intervaloVaciar = null;
+    if (emptyInterval) {
+        clearInterval(emptyInterval);
+        emptyInterval = null;
     }
     
-    audioCarga.currentTime = inicioAudio; 
-    audioCarga.play();
+    loadingAudio.currentTime = audioStart; 
+    loadingAudio.play();
     
-    intervalo = setInterval(() => {
-        // Tu velocidad de carga a 1.2
-        progreso += 1.2; 
-        if (progreso >= 100) {
-            progreso = 100;
-            barraProgreso.style.width = progreso + '%';
-            detenerPresion();
-            accionCompletada();
+    interval = setInterval(() => {
+        progress += 1.2; 
+        if (progress >= 100) {
+            progress = 100;
+            progressBar.style.width = progress + '%';
+            stopPress();
+            actionCompleted();
         } else {
-            barraProgreso.style.width = progreso + '%';
+            progressBar.style.width = progress + '%';
         }
     }, 20);
 }
 
-function detenerPresion() {
-    if (intervalo) {
-        clearInterval(intervalo);
-        intervalo = null;
+function stopPress() {
+    if (interval) {
+        clearInterval(interval);
+        interval = null;
     }
 
-    if (progreso < 100) {
-        audioCarga.pause();
+    if (progress < 100) {
+        loadingAudio.pause();
     }
 
-    if (progreso > 0 && progreso < 100 && !intervaloVaciar) {
-        intervaloVaciar = setInterval(() => {
-            progreso -= 5;
-            if (progreso <= 0) {
-                progreso = 0;
-                clearInterval(intervaloVaciar);
-                intervaloVaciar = null;
-                audioCarga.currentTime = inicioAudio;
+    if (progress > 0 && progress < 100 && !emptyInterval) {
+        emptyInterval = setInterval(() => {
+            progress -= 5;
+            if (progress <= 0) {
+                progress = 0;
+                clearInterval(emptyInterval);
+                emptyInterval = null;
+                loadingAudio.currentTime = audioStart;
             }
-            barraProgreso.style.width = progreso + '%';
+            progressBar.style.width = progress + '%';
         }, 15);
     }
 }
 
-function accionCompletada() {
-    console.log("Carga completada");
-    
-    audioCarga.pause();
-    audioCarga.currentTime = inicioAudio;
-
-    alert("¡START completado con éxito, choripan!"); 
-    
-    setTimeout(() => {
-        progreso = 0;
-        barraProgreso.style.width = '0%';
-    }, 1000);
+function actionCompleted() {
+    loadingAudio.pause();
+    loadingAudio.currentTime = audioStart;
+    startBtn.classList.add('hidden');
+    startBg.classList.add('hidden');
+    playersBg.classList.remove('hidden');
+    playersScreen.classList.remove('hidden');
+    progress = 0;
+    progressBar.style.width = '0%';
 }
 
-// PC
-botonStart.addEventListener('mousedown', empezarPresion);
-window.addEventListener('mouseup', detenerPresion);
-botonStart.addEventListener('mouseleave', detenerPresion);
+startBtn.addEventListener('mousedown', startPress);
+window.addEventListener('mouseup', stopPress);
+startBtn.addEventListener('mouseleave', stopPress);
 
-// Móvil
-botonStart.addEventListener('touchstart', empezarPresion, { passive: false });
-window.addEventListener('touchend', detenerPresion);
-botonStart.addEventListener('touchcancel', detenerPresion);
+startBtn.addEventListener('touchstart', startPress, { passive: false });
+window.addEventListener('touchend', stopPress);
+startBtn.addEventListener('touchcancel', stopPress);
+
+function initSegments() {
+    segmentsBar.innerHTML = '';
+    for (let i = 0; i < maxPlayers; i++) {
+        const seg = document.createElement('div');
+        seg.classList.add('segment');
+        segmentsBar.appendChild(seg);
+    }
+}
+
+function showError(text) {
+    errorMessage.textContent = text;
+    errorMessage.classList.remove('hidden');
+}
+
+function hideError() {
+    errorMessage.classList.add('hidden');
+}
+
+function updatePlayersUI() {
+    playersCounter.textContent = `${players.length}/${maxPlayers}`;
+
+    const segments = segmentsBar.querySelectorAll('.segment');
+    segments.forEach((seg, index) => {
+        if (index < players.length) {
+            seg.classList.add('filled');
+        } else {
+            seg.classList.remove('filled');
+        }
+    });
+
+    namesGrid.innerHTML = '';
+    players.forEach((name, index) => {
+        const pill = document.createElement('div');
+        pill.classList.add('name-pill');
+
+        const nameSpan = document.createElement('span');
+        nameSpan.textContent = name;
+
+        const removeBtn = document.createElement('button');
+        removeBtn.classList.add('remove-name-btn');
+        removeBtn.textContent = '×';
+        removeBtn.addEventListener('click', () => removePlayer(index));
+
+        pill.appendChild(nameSpan);
+        pill.appendChild(removeBtn);
+        namesGrid.appendChild(pill);
+    });
+
+    const remaining = maxPlayers - players.length;
+    if (players.length === 0) {
+        startGameBtn.textContent = `COMENZAR · FALTAN 16`;
+        startGameBtn.classList.remove('ready');
+    } else if (players.length < maxPlayers) {
+        startGameBtn.textContent = `COMENZAR · FALTAN ${remaining}`;
+        startGameBtn.classList.add('ready');
+    } else {
+        startGameBtn.textContent = `¡COMENZAR PARTIDA!`;
+        startGameBtn.classList.add('ready');
+    }
+}
+
+function addPlayer() {
+    const name = playerInput.value.trim();
+
+    if (players.length >= maxPlayers) {
+        showError('¡ERROR! NO PUEDES AÑADIR MÁS DE 16 JUGADORES');
+        return;
+    }
+
+    if (name === '') {
+        showError('¡ESCRIBE UN NOMBRE PRIMERO!');
+        return;
+    }
+
+    hideError();
+    players.push(name);
+    playerInput.value = '';
+    playerInput.focus();
+    updatePlayersUI();
+}
+
+function removePlayer(index) {
+    players.splice(index, 1);
+    hideError();
+    updatePlayersUI();
+}
+
+addPlayerBtn.addEventListener('click', addPlayer);
+
+playerInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        addPlayer();
+    }
+});
+
+fillExamplesBtn.addEventListener('click', () => {
+    hideError();
+    players = [...exampleNames];
+    updatePlayersUI();
+});
+
+backBtn.addEventListener('click', () => {
+    hideError();
+    playersScreen.classList.add('hidden');
+    playersBg.classList.add('hidden');
+    startBg.classList.remove('hidden');
+    startBtn.classList.remove('hidden');
+});
+
+startGameBtn.addEventListener('click', () => {
+    if (players.length === 0) {
+        showError('¡AÑADE AL MENOS 1 JUGADOR PARA EMPEZAR!');
+        return;
+    }
+    hideError();
+    alert(`¡Comenzando con ${players.length} jugadores, kbsa!`);
+});
+
+initSegments();
+updatePlayersUI();
