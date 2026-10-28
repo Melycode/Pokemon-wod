@@ -65,7 +65,6 @@ const teamsButton = $("btnTeams");
 const teamsDialog = $("teamsDialog");
 const teamList = $("teamList");
 const teamsCounter = $("teamsCounter");
-const btnContinue = $("btnContinue");
 const restartButton = $("btnRestart");
 
 
@@ -407,37 +406,42 @@ function openTeams() {
   });
 
   const isCompleted = state.pending.length === 0;
-  if (btnContinue) btnContinue.hidden = isCompleted;
   if (restartButton) restartButton.hidden = !isCompleted;
 
-  if (teamsDialog && typeof teamsDialog.showModal === "function") {
-    teamsDialog.showModal();
-  }
+  // show() y no showModal(): la hoja vive dentro de .app y deja visible la barra superior
+  if (teamsDialog && !teamsDialog.open) teamsDialog.show();
 }
 
-btnContinue?.addEventListener("click", () => {
-  if (teamsDialog) teamsDialog.close();
-});
+function closeTeams() {
+  if (teamsDialog?.open) teamsDialog.close();
+}
 
 teamsDialog?.addEventListener("close", resetEncounter);
 
 teamsButton?.addEventListener("click", () => {
-  if (state.phase !== "throwing") openTeams();
+  if (teamsDialog?.open) closeTeams();
+  else if (state.phase !== "throwing") openTeams();
 });
-$("btnTeamsClose")?.addEventListener("click", () => {
-  if (teamsDialog) teamsDialog.close();
+$("btnTeamsClose")?.addEventListener("click", closeTeams);
+
+// Tocar fuera de la hoja o pulsar Escape la cierra
+document.addEventListener("click", (event) => {
+  if (!teamsDialog?.open || state.phase === "throwing") return;
+  if (teamsDialog.contains(event.target) || teamsButton?.contains(event.target)) return;
+  closeTeams();
+});
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") closeTeams();
 });
 
 restartButton?.addEventListener("click", () => {
-  if (teamsDialog) teamsDialog.close();
+  closeTeams();
   clearState();
   showScreen(namesScreen);
 });
 
 
-if (teamsDialog && teamsDialog.open) {
-  teamsDialog.close();
-}
+closeTeams();
 
 loadState();
 renderNames();

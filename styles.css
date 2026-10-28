@@ -324,141 +324,104 @@ button:disabled { cursor: not-allowed; }
 .dialogText { margin: 0 0 14px; font-size: 21px; line-height: 1.2; }
 
 
+/* Hoja de Equipos: sube desde abajo dentro de .app y deja ver la barra superior */
 dialog.teams {
-  width: min(420px, calc(100% - 24px));
-  max-height: 85vh;
-  margin: auto auto 16px auto; 
-  padding: 16px;
-  background-color: #FFFDF5;
-  border: 4px solid #000000;
-  border-radius: 24px;
-  box-shadow: 0 8px 0 rgba(0, 0, 0, 0.85);
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 10;
+  width: 100%;
+  max-width: none;
+  height: 68%;
+  margin: 0;
+  padding: 10px 16px 18px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  overflow: visible; 
+  gap: 14px;
+  background: #fdf8ec;
+  color: #1f1a33;
+  border: 0;
+  border-top: 4px solid #1f1a33;
+  border-radius: 36px 36px 0 0;
+  box-shadow: none;
+  animation: sheetUp .3s ease-out;
 }
 
-dialog.teams:not([open]) {
-  display: none;
+dialog.teams:not([open]) { display: none; }
+
+.teamsHandle {
+  align-self: center;
+  width: 56px;
+  height: 7px;
+  padding: 0;
+  background: #ece2c6;
+  border: 0;
+  border-radius: 999px;
 }
-
-
-dialog.teams::before {
-  content: "";
-  display: block;
-  width: 44px;
-  height: 6px;
-  background-color: #E8E3D5;
-  border-radius: 10px;
-  margin: 0 auto 4px auto;
-}
-
 
 .teamsHeader {
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
   align-items: center;
-  width: 100%;
-  box-sizing: border-box;
 }
 
 .teamsHeader .title {
-  font-family: 'Press Start 2P', monospace, sans-serif;
-  font-size: 16px;
-  color: #000000;
   margin: 0;
-  margin-right: auto;
+  font-size: 18px;
 }
 
-
-#teamsCounter,
-.teamsHeader .pillYellow {
-  margin-left: auto;
-  margin-right: 12px;
-  background-color: #FCCF01;
-  border: 2px solid #000000;
-  border-radius: 14px;
-  padding: 4px 10px;
+#teamsCounter {
+  margin: 0;
+  padding: 8px 14px;
+  background: #ffcc1a;
+  border-width: 3px;
   font-size: 11px;
-  font-weight: bold;
-  color: #000000;
 }
-
-
-#btnTeamsClose {
-  position: absolute;
-  top: -18px;
-  right: 12px;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background-color: #FFFFFF;
-  border: 3px solid #000000;
-  box-shadow: 0 3px 0 #000000;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-}
-
-#btnTeamsClose:active {
-  transform: translateY(2px);
-  box-shadow: 0 1px 0 #000000;
-}
-
 
 .teamGrid {
   list-style: none;
-  padding: 0;
+  margin: 0;
+  padding: 0 0 4px;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 8px;
-  max-height: 58vh;
+  grid-auto-rows: 1fr;
+  gap: 10px 9px;
+  flex: 1;
+  min-height: 0;
   overflow-y: auto;
 }
 
 .teamCard {
-  background-color: #FFFFFF;
-  border: 2px solid #000000;
-  border-radius: 14px;
-  padding: 6px 2px;
+  min-height: 100px;
+  padding: 6px 4px 7px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
+  gap: 4px;
   text-align: center;
-  min-height: 130px;
-  box-sizing: border-box;
+  background: #ffffff;
+  border: 2px solid #1f1a33;
+  border-radius: 12px;
   overflow: hidden;
 }
 
-
 .cardImgSlot {
   width: 100%;
-  flex: 1;                     
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important; 
-  padding-top: 4px;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .cardImgSlot img {
   display: block;
-  max-height: 85%;
   max-width: 85%;
+  max-height: 85%;
   object-fit: contain;
-  margin: 0 auto !important;
-  transform-origin: center center;
+  image-rendering: pixelated;
 }
 
-
+/* Ajuste a mano de los GIF que vienen con tamaños distintos */
 .cardImgSlot img[alt*="Bulbasaur" i],
 .cardImgSlot img[alt*="Charmander" i],
 .cardImgSlot img[alt*="Squirtle" i],
@@ -468,116 +431,60 @@ dialog.teams::before {
 .cardImgSlot img[alt*="Chikorita" i],
 .cardImgSlot img[alt*="Cyndaquil" i],
 .cardImgSlot img[alt*="Zapdos" i],
-.cardImgSlot img[alt*="Moltres" i] {
-  transform: scale(1.45);
-  transform-origin: center center;
-}
-
-
-.cardImgSlot img[alt*="Totodile" i] {
-  transform: scale(0.72);
-  transform-origin: bottom center;
-}
-
-
+.cardImgSlot img[alt*="Moltres" i] { transform: scale(1.45); }
+.cardImgSlot img[alt*="Totodile" i] { transform: scale(.72); transform-origin: bottom center; }
 .cardImgSlot img[alt*="Mewtwo" i],
-.cardImgSlot img[alt*="Grovyle" i]  {
-  transform: scale(0.95);
-  transform-origin: bottom center;
-}
-
+.cardImgSlot img[alt*="Grovyle" i] { transform: scale(.95); transform-origin: bottom center; }
 
 .cardImgSlot .placeholder {
-  font-size: 42px;
-  font-weight: bold;
-  color: #666666;
+  font-family: "Press Start 2P", monospace;
+  font-size: 14px;
+  color: #5b5470;
 }
 
 .playerName {
-  font-size: 13px !important;
-  font-weight: bold;
-  color: #000000;
-  margin: 2px 0 1px 0;
+  max-width: 100%;
+  font-size: 21px;
+  font-weight: normal;
+  line-height: 1;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 100%;
 }
-
 
 .statusBadge {
-  font-size: 9px !important;
-  font-weight: 800;
-  padding: 2px 4px;
-  border-radius: 4px;
+  font-family: "Press Start 2P", monospace;
+  font-size: 7px;
+  letter-spacing: .5px;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
+.teamCard.isCaught .statusBadge { color: #6b6680; }
 
 .teamCard.isNew {
-  background-color: #FFF9D2;
-  border: 2px solid #FCCF01;
-  box-shadow: inset 0 0 0 1px #FCCF01, inset 0 0 10px rgba(252, 207, 1, 0.85);
+  background: #fff1c1;
+  border: 3px solid #e0a400;
+  animation: pop .35s ease-out;
 }
-
-.teamCard.isNew .statusBadge {
-  background-color: #FCCF01;
-  color: #000000;
-}
-
-
-.teamCard.isCaught {
-  background-color: #FFFFFF;
-  border: 2px solid #000000;
-}
-
-.teamCard.isCaught .statusBadge {
-  color: #555555;
-}
-
+.teamCard.isNew .statusBadge { color: #c8960a; }
 
 .teamCard.isPending {
-  background-color: #FAFAFA;
-  border: 2px dashed #A0A0A0;
+  background: transparent;
+  border: 2px dashed #1f1a33;
 }
-
-.teamCard.isPending .statusBadge {
-  color: #888888;
+.teamCard.isPending .cardImgSlot {
+  width: 78%;
+  aspect-ratio: 1;
+  flex: none;
+  background: #e3ebf3;
+  border: 3px dashed #1f1a33;
+  border-radius: 10px;
 }
+.teamCard.isPending .statusBadge { color: #5b5470; }
 
+.teamsFooter:has(> [hidden]:only-child) { display: none; }
 
-.teamsFooter {
-  width: 100%;
-  margin-top: 4px;
-}
-
-.teamsFooter .btnPrimary {
-  width: 100%;
-  padding: 12px;
-  background-color: #FCCF01;
-  border: 3px solid #000000;
-  border-radius: 12px;
-  font-family: 'Press Start 2P', monospace, sans-serif;
-  font-size: 11px;
-  color: #000000;
-  box-shadow: 0 4px 0 #000000;
-  cursor: pointer;
-}
-
-.teamsFooter .btnPrimary:active {
-  transform: translateY(2px);
-  box-shadow: 0 2px 0 #000000;
-}
-
-
-.teams {
-  width: min(380px, calc(100% - 32px));
-  max-height: 80dvh;
-  padding: 16px;
-  color: #1f1a33;
-}
-.teams::backdrop { background: rgba(31, 26, 51, .55); }
+@keyframes sheetUp { from { transform: translateY(100%); } }
 
 
 @keyframes pop    { from { transform: scale(.7); opacity: 0; } }

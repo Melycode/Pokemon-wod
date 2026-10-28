@@ -89,19 +89,18 @@
     </section>
 
 
-    <dialog id="teamsDialog" class="teams card">
-      <header class="teamsHeader">
-        <h2 class="title">Equipos</h2>
-        <span id="teamsCounter" class="pill pillYellow">0/16</span>
-        <button id="btnTeamsClose" class="iconBtn iconBtnSm" type="button" aria-label="Cerrar">&times;</button>
-      </header>
+    <dialog id="teamsDialog" class="teams" aria-labelledby="teamsTitle">
+      <button id="btnTeamsClose" class="teamsHandle" type="button" aria-label="Cerrar equipos"></button>
 
+      <header class="teamsHeader">
+        <h2 id="teamsTitle" class="title">Equipos</h2>
+        <span id="teamsCounter" class="pill pillYellow">0/16</span>
+      </header>
 
       <ul id="teamList" class="teamGrid"></ul>
 
       <div class="teamsFooter">
-        <button id="btnContinue" class="btn btnPrimary" type="button">CONTINUAR JUGANDO</button>
-        <button id="btnRestart" class="btn btnLight" type="button" hidden>JUGAR DE NUEVO</button>
+        <button id="btnRestart" class="btn btnPrimary" type="button" hidden>JUGAR DE NUEVO</button>
       </div>
     </dialog>
 
