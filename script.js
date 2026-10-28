@@ -10,6 +10,7 @@ const cookieBanner = document.getElementById('cookie-banner');
 const btnAccept = document.getElementById('btn-accept');
 const btnDeny = document.getElementById('btn-deny');
 const backgroundAudio = document.getElementById('background-audio');
+const playersAudio = document.getElementById('players-audio');
 
 const playersScreen = document.getElementById('players-screen');
 const backBtn = document.getElementById('back-btn');
@@ -102,6 +103,13 @@ function stopPress() {
 function actionCompleted() {
     loadingAudio.pause();
     loadingAudio.currentTime = audioStart;
+    
+    backgroundAudio.pause();
+    backgroundAudio.currentTime = 0;
+    
+    playersAudio.volume = 0.3;
+    playersAudio.play().catch(e => console.log("Players audio autoplay blocked", e));
+
     startBtn.classList.add('hidden');
     startBg.classList.add('hidden');
     playersBg.classList.remove('hidden');
@@ -221,6 +229,12 @@ fillExamplesBtn.addEventListener('click', () => {
 
 backBtn.addEventListener('click', () => {
     hideError();
+    
+    playersAudio.pause();
+    playersAudio.currentTime = 0;
+    
+    backgroundAudio.play().catch(e => console.log("Background audio play blocked", e));
+
     playersScreen.classList.add('hidden');
     playersBg.classList.add('hidden');
     startBg.classList.remove('hidden');
@@ -233,7 +247,7 @@ startGameBtn.addEventListener('click', () => {
         return;
     }
     hideError();
-    alert(`¡Comenzando con ${players.length} jugadores!`);
+    alert(`¡Comenzando con ${players.length} jugadores, kbsa!`);
 });
 
 initSegments();
