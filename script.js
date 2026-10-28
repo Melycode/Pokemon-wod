@@ -29,7 +29,7 @@ const exampleNames = [
     "Julián", "Melisa", "Nacho", "Alfonso", 
     "Jaime", "Luis", "Daniel", "Dani", 
     "Manuel", "Nerea", "Carlos", "Diego", 
-    "Alba", "Brandon", "Rafel", "Paloma"
+    "Alba", "Brandon", "Rafael", "Paloma"
 ];
 
 function startBackgroundMusic() {
