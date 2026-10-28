@@ -1,0 +1,433 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --amarillo: #FCCF01;
+    --azul: #365AAB;
+    --crema: #FFFDF5;
+    --oscuro: #1B1832;
+}
+
+body {
+    min-height: 100vh;
+    background-color: #F0E9D5;
+    font-family: 'Press Start 2P', monospace;
+}
+
+.final-screen {
+    position: relative;
+
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+
+    overflow: hidden;
+
+    background-color: #56B9F0;
+
+    background-image: url(
+        "https://res.cloudinary.com/dbadhyp7x/image/upload/v1793007613/image_10_qsruzy.png"
+    );
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.final-background {
+    display: none;
+}
+
+.final-notch {
+    display: none;
+}
+
+.final-content {
+    position: relative;
+    z-index: 2;
+
+    width: 100%;
+    max-width: 1040px;
+    min-height: 100vh;
+    min-height: 100dvh;
+
+    margin: 0 auto;
+    padding: 32px 24px 40px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 22px;
+}
+
+.final-title {
+    font-size: clamp(24px, 3.2vw, 42px);
+    line-height: 1.4;
+
+    text-align: center;
+    white-space: nowrap;
+
+    color: var(--amarillo);
+
+    -webkit-text-stroke: 1px var(--azul);
+
+    text-shadow:
+        3px 3px 0 var(--azul),
+        5px 5px 0 var(--oscuro);
+}
+
+.final-board {
+    width: 100%;
+    max-width: 900px;
+
+    padding: 18px;
+
+    background-color: var(--crema);
+
+    border: 6px solid var(--oscuro);
+    border-radius: 22px;
+
+    box-shadow: 0 8px 0 rgba(0, 0, 0, 0.35);
+}
+
+.final-grid {
+    display: grid;
+
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+
+    gap: 12px;
+}
+
+.final-player-card {
+    min-width: 0;
+    min-height: 108px;
+
+    padding: 9px 6px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    background-color: #FFFFFF;
+
+    border: 3px solid var(--oscuro);
+    border-radius: 13px;
+}
+
+.final-pokemon-slot {
+    width: 70px;
+    height: 52px;
+
+    border: 3px dashed var(--oscuro);
+    border-radius: 8px;
+
+    background-color: #E5EDF4;
+}
+
+.final-player-name {
+    max-width: 100%;
+
+    margin-top: 8px;
+
+    font-family: 'Courier New', monospace;
+    font-size: 15px;
+    font-weight: bold;
+
+    color: var(--oscuro);
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.final-player-status {
+    margin-top: 7px;
+
+    font-size: 7px;
+    color: #4C476D;
+}
+
+.final-actions {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 18px;
+
+    width: 100%;
+    max-width: 900px;
+}
+
+.final-btn {
+    min-height: 58px;
+    padding: 12px;
+
+    border: 4px solid var(--oscuro);
+    border-radius: 12px;
+
+    font-family: 'Press Start 2P', monospace;
+    font-size: 11px;
+
+    color: var(--oscuro);
+
+    cursor: pointer;
+
+    box-shadow: 0 5px 0 var(--oscuro);
+
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.final-btn:hover {
+    filter: brightness(1.05);
+}
+
+.final-btn:active {
+    transform: translateY(4px);
+    box-shadow: 0 1px 0 var(--oscuro);
+}
+
+.final-btn-primary {
+    background-color: var(--amarillo);
+}
+
+.final-btn-secondary {
+    background-color: #FFFFFF;
+}
+
+
+@media (max-width: 768px) {
+
+    body {
+        min-height: 100dvh;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        background-color: #F0E9D5;
+    }
+
+    .final-screen {
+        width: min(390px, calc(100vw - 16px));
+
+        height: min(805px, calc(100dvh - 16px));
+        min-height: 0;
+
+        border: 7px solid var(--oscuro);
+        border-radius: 46px;
+
+        background: linear-gradient(
+            to bottom,
+            #56B9F0 0%,
+            #61C7F2 45%,
+            #83D77D 65%,
+            #0A5838 100%
+        );
+    }
+
+    .final-background {
+        display: block;
+
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        width: 100%;
+        height: 100%;
+
+        object-fit: cover;
+        image-rendering: pixelated;
+
+        z-index: 0;
+    }
+
+    .final-notch {
+        display: block;
+
+        position: absolute;
+        top: 7px;
+        left: 50%;
+
+        transform: translateX(-50%);
+
+        width: 104px;
+        height: 29px;
+
+        border-radius: 30px;
+        background-color: var(--oscuro);
+
+        z-index: 3;
+    }
+
+    .final-content {
+        width: 100%;
+        max-width: none;
+
+        height: 100%;
+        min-height: 0;
+
+        padding: 54px 11px 24px;
+
+        justify-content: flex-start;
+
+        gap: 14px;
+    }
+
+    .final-title {
+        flex-shrink: 0;
+
+        font-size: clamp(18px, 5.8vw, 26px);
+
+        text-shadow:
+            2px 2px 0 var(--azul),
+            4px 4px 0 var(--oscuro);
+    }
+
+    .final-board {
+        flex: 1;
+        min-height: 0;
+
+        width: 100%;
+
+        padding: 9px 7px;
+
+        border-width: 3px;
+        border-radius: 18px;
+
+        box-shadow: none;
+
+        overflow: hidden;
+    }
+
+    .final-grid {
+        width: 100%;
+        height: 100%;
+
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+
+        grid-template-rows: repeat(4, minmax(0, 1fr));
+
+        gap: 6px;
+    }
+
+    .final-player-card {
+        min-height: 0;
+
+        padding: 5px 3px;
+
+        border-width: 2px;
+        border-radius: 10px;
+
+        overflow: hidden;
+    }
+
+    .final-pokemon-slot {
+        width: min(100%, 55px);
+
+        height: clamp(22px, 7dvh, 55px);
+
+        flex-shrink: 0;
+
+        border-width: 2px;
+        border-radius: 6px;
+    }
+
+    .final-player-name {
+        margin-top: 5px;
+
+        font-size: clamp(8px, 2.8vw, 11px);
+    }
+
+    .final-player-status {
+        margin-top: 4px;
+
+        font-size: 5px;
+    }
+
+    .final-actions {
+        display: flex;
+        flex-direction: column;
+
+        flex-shrink: 0;
+
+        gap: 8px;
+        width: 100%;
+    }
+
+    .final-btn {
+        min-height: 0;
+        height: 50px;
+
+        border-width: 3px;
+
+        font-size: 11px;
+    }
+
+    .final-btn-secondary {
+        height: 44px;
+        font-size: 9px;
+    }
+}
+
+@media (max-width: 768px) and (max-height: 660px) {
+
+    .final-content {
+        padding-top: 46px;
+        padding-bottom: 15px;
+
+        gap: 10px;
+    }
+
+    .final-notch {
+        width: 88px;
+        height: 21px;
+    }
+
+    .final-title {
+        font-size: 19px;
+    }
+
+    .final-board {
+        padding: 6px;
+    }
+
+    .final-grid {
+        gap: 4px;
+    }
+
+    .final-player-card {
+        padding: 3px 2px;
+    }
+
+    .final-pokemon-slot {
+        height: clamp(22px, 5.5dvh, 37px);
+    }
+
+    .final-player-name {
+        margin-top: 3px;
+        font-size: 9px;
+    }
+
+    .final-player-status {
+        margin-top: 3px;
+        font-size: 4px;
+    }
+
+    .final-btn {
+        height: 42px;
+        font-size: 9px;
+    }
+
+    .final-btn-secondary {
+        height: 36px;
+        font-size: 8px;
+    }
+}
