@@ -1,7 +1,6 @@
 const maxPlayers = 16;
 const throwDuration = 1600;
 
-// Estado Global (ahora 100% limpio en cada recarga)
 let gameState = {
     names: [],
     pending: [],
@@ -50,7 +49,7 @@ const loadingAudio = document.getElementById('loading-audio');
 const backgroundAudio = document.getElementById('background-audio');
 const playersAudio = document.getElementById('players-audio');
 
-// Nodos Pantalla 2 (Jugadores)
+// Nodos Pantalla 2
 const playersScreen = document.getElementById('players-screen');
 const backBtn = document.getElementById('back-btn');
 const nameForm = document.getElementById('nameForm');
@@ -62,7 +61,7 @@ const namesGrid = document.getElementById('names-grid');
 const fillExamplesBtn = document.getElementById('fill-examples-btn');
 const startGameBtn = document.getElementById('start-game-btn');
 
-// Nodos Pantalla 3 (Juego/Captura)
+// Nodos Pantalla 3
 const gameScreen = document.getElementById('game-screen');
 const btnClose = document.getElementById('btnClose');
 const caughtCount = document.getElementById('caughtCount');
@@ -75,21 +74,20 @@ const dialogText = document.getElementById('dialogText');
 const btnCatch = document.getElementById('btnCatch');
 const catchLabel = document.getElementById('catchLabel');
 
-// Nodos Página 4 (Hoja de Equipos)
+// Nodos Página 4
 const teamsDialog = document.getElementById('teamsDialog');
 const teamsCounter = document.getElementById('teamsCounter');
 const btnTeamsClose = document.getElementById('btnTeamsClose');
 const teamList = document.getElementById('teamList');
 const btnFinish = document.getElementById('btnFinish');
 
-// Nodos Pantalla 5 (Pantalla Final)
+// Nodos Pantalla 5
 const finalScreen = document.getElementById('final-screen');
 const finalGrid = document.getElementById('final-grid');
 const playAgainBtn = document.getElementById('play-again-btn');
 const copyResultsBtn = document.getElementById('copy-results-btn');
 
 
-// --- SISTEMA DE SONIDO ---
 let audioContext = null;
 let soundOn = true;
 
@@ -218,7 +216,7 @@ window.addEventListener('touchend', stopPress);
 startBtn.addEventListener('touchcancel', stopPress);
 
 
-// --- LÓGICA PANTALLA 2 (AÑADIR JUGADORES) ---
+//LÓGICA PANTALLA 2
 function initSegments() {
     segmentsBar.innerHTML = '';
     for (let i = 0; i < maxPlayers; i++) {
@@ -358,7 +356,7 @@ startGameBtn.addEventListener('click', () => {
 initSegments();
 
 
-// --- LÓGICA PANTALLA 3 (JUEGO/CAPTURA) ---
+//LÓGICA PANTALLA 3
 const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -536,7 +534,7 @@ document.addEventListener("keydown", (event) => {
 });
 
 
-// --- LÓGICA PANTALLA 5 (PANTALLA FINAL) ---
+//LÓGICA PANTALLA 5
 function showFinalScreen() {
     closeTeams();
     gameScreen.classList.add('hidden');
@@ -566,7 +564,6 @@ function showFinalScreen() {
 
         const statusSpan = document.createElement('span');
         statusSpan.classList.add('final-player-status');
-        // AHORA SIN EL PUNTO Y SEPARADO
         statusSpan.textContent = team ? `${team.pokemon} Nvl.${team.level}` : 'ATRAPADO';
 
         card.appendChild(slotEl);
