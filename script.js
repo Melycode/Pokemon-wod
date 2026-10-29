@@ -248,12 +248,8 @@ function actionCompleted() {
     startBg.classList.add('hidden');
     playersBg.classList.remove('hidden');
     
-    // Si ya teníamos una partida en curso guardada en localStorage, saltamos al juego
-    if (gameState.names.length >= minPlayers && gameState.teams.length > 0) {
-        openGameScreen();
-    } else {
-        playersScreen.classList.remove('hidden');
-    }
+    playersScreen.classList.remove('hidden');
+    updatePlayersUI();
 
     progress = 0; progressBar.style.width = '0%';
 }
