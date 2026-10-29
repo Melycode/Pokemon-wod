@@ -1,5 +1,6 @@
 // PARTE 1
 const maxPlayers = 16;
+const minPlayers = 4; // Añadido el mínimo de jugadores
 const throwDuration = 1600;
 
 let gameState = {
@@ -10,9 +11,6 @@ let gameState = {
     lastCaughtName: "",
     phase: "ready"
 };
-
-let currentWildPokemon = null;
-let currentWildLevel = 0;
 
 const LOCAL_POKEMON_LIST = [
     { id: 1, name: "Bulbasaur", sprite: "https://res.cloudinary.com/det6jfwzx/image/upload/v1792662482/bulbasaur.gif" },
@@ -228,7 +226,7 @@ function showError(text) {
 
 function updatePlayersUI(animateFrom = Infinity) {
     const total = gameState.names.length;
-    const remaining = maxPlayers - total;
+    const missingToStart = minPlayers - total;
     
     playersCounter.textContent = `${total}/${maxPlayers}`;
 
@@ -264,16 +262,18 @@ function updatePlayersUI(animateFrom = Infinity) {
         namesGrid.appendChild(pill);
     });
 
-    startGameBtn.disabled = remaining > 0;
-    if (remaining === 0) {
+    // Lógica dinámica para permitir jugar con mínimo 4 personas
+    startGameBtn.disabled = total < minPlayers;
+    
+    if (total >= minPlayers) {
         startGameBtn.textContent = `¡COMENZAR PARTIDA!`;
         startGameBtn.classList.add('ready');
-        playerInput.disabled = true;
     } else {
-        startGameBtn.textContent = `COMENZAR · FALTAN ${remaining}`;
+        startGameBtn.textContent = `COMENZAR · FALTAN ${missingToStart}`;
         startGameBtn.classList.remove('ready');
-        playerInput.disabled = false;
     }
+    
+    playerInput.disabled = total >= maxPlayers;
 }
 
 function addPlayer(text) {
@@ -359,12 +359,15 @@ function openGameScreen() {
     finalScreen.classList.add('hidden');
     playersScreen.classList.add('hidden');
     gameScreen.classList.remove('hidden');
-    caughtCount.textContent = `${gameState.teams.length}/${maxPlayers}`;
+    
+    // El contador ahora se basa en cuánta gente está jugando realmente
+    caughtCount.textContent = `${gameState.teams.length}/${gameState.names.length}`;
     resetEncounter();
 }
 
 function resetEncounter() {
-    if (gameState.pending.length === 0 && gameState.teams.length === maxPlayers) {
+    // Detecta el final basándose en el total de participantes elegidos
+    if (gameState.pending.length === 0 && gameState.teams.length === gameState.names.length) {
         showFinalScreen();
         return;
     }
@@ -411,7 +414,6 @@ async function catchPokemon() {
 
     await wait(throwDuration);
 
-    // ¡Atrapado! El Pokémon vuelve a salir y desvela al ganador
     slot.classList.remove("isThrowing");
     slot.classList.add("isRevealed");
     playSound("caught");
@@ -427,7 +429,8 @@ async function catchPokemon() {
         level: currentWildLevel
     });
 
-    caughtCount.textContent = `${gameState.teams.length}/${maxPlayers}`;
+    // Actualiza contador dinámico
+    caughtCount.textContent = `${gameState.teams.length}/${gameState.names.length}`;
 
     await wait(1800); 
     openTeams();
@@ -488,13 +491,15 @@ function createTeamCard(name) {
 
 function openTeams() {
     teamList.innerHTML = "";
-    teamsCounter.textContent = `${gameState.teams.length}/${maxPlayers}`;
+    // Contador dinámico
+    teamsCounter.textContent = `${gameState.teams.length}/${gameState.names.length}`;
 
     for (const name of gameState.names) {
         teamList.appendChild(createTeamCard(name));
     }
 
-    const isFinished = gameState.pending.length === 0 && gameState.teams.length === maxPlayers;
+    // Comprueba si están todos basándose en los jugadores reales
+    const isFinished = gameState.pending.length === 0 && gameState.teams.length === gameState.names.length;
     btnFinish.hidden = !isFinished;
 
     if (!teamsDialog.open) teamsDialog.show();
