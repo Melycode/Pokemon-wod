@@ -1,18 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pokémon Doom Version</title>
+    <title>Captura Misteriosa</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="screen-container">
         
+        <!-- FONDOS -->
         <picture id="start-bg">
             <source media="(max-width: 768px)" srcset="https://res.cloudinary.com/dbadhyp7x/image/upload/v1793181951/Gemini_Generated_Image_lc1qpmlc1qpmlc1q_fayu75.jpg">
-            <img src="https://res.cloudinary.com/dbadhyp7x/image/upload/v1793182129/Gemini_Generated_Image_ud45rfud45rfud45_gwbcxa.jpg" alt="Pokemon Doom Version Background" class="background-image">
+            <img src="https://res.cloudinary.com/dbadhyp7x/image/upload/v1793182129/Gemini_Generated_Image_ud45rfud45rfud45_gwbcxa.jpg" alt="Captura Misteriosa Background" class="background-image">
         </picture>
 
         <picture id="players-bg" class="hidden">
@@ -20,14 +23,16 @@
             <img src="https://res.cloudinary.com/dbadhyp7x/image/upload/v1793007613/image_10_qsruzy.png" alt="Players Screen Background" class="background-image">
         </picture>
 
+        <!-- PANTALLA 1: PORTADA -->
         <button id="start-btn" class="start-button">
             <div id="progress-bar" class="progress-bar"></div>
             <span class="start-text">START</span>
         </button>
 
+        <!-- PANTALLA 2: JUGADORES -->
         <div id="players-screen" class="players-screen hidden">
             <div class="top-bar">
-                <button id="back-btn" class="back-btn">←</button>
+                <button id="back-btn" class="back-btn" type="button" aria-label="Volver">←</button>
                 <div class="step-badge">PASO 1 DE 2</div>
             </div>
 
@@ -36,12 +41,12 @@
                     <h2 class="card-title">¿Quién juega?</h2>
                     <p class="card-subtitle">Añade 16 nombres. Cada uno se llevará un Pokémon al azar.</p>
 
-                    <div class="input-group">
-                        <input type="text" id="player-input" class="player-input" placeholder="Escribe un nombre" maxlength="12">
-                        <button id="add-player-btn" class="add-player-btn">+</button>
-                    </div>
+                    <form id="nameForm" class="input-group" novalidate>
+                        <input type="text" id="player-input" class="player-input" placeholder="Escribe un nombre" maxlength="12" autocomplete="off">
+                        <button type="submit" id="add-player-btn" class="add-player-btn" aria-label="Añadir nombre">+</button>
+                    </form>
 
-                    <div id="error-message" class="error-message hidden">¡ERROR! MÁXIMO 16 JUGADORES</div>
+                    <div id="error-message" class="error-message hidden" role="alert"></div>
                 </div>
 
                 <div class="card-right">
@@ -50,20 +55,87 @@
                         <span id="players-counter">0/16</span>
                     </div>
 
-                    <div id="segments-bar" class="segments-bar"></div>
-
+                    <div id="segments-bar" class="segments-bar" aria-hidden="true"></div>
                     <div id="names-grid" class="names-grid"></div>
                 </div>
             </div>
 
             <div class="bottom-actions">
-                <button id="fill-examples-btn" class="action-btn secondary-btn">RELLENAR CON EJEMPLOS</button>
-                <button id="start-game-btn" class="action-btn primary-btn">COMENZAR · FALTAN 16</button>
+                <button id="fill-examples-btn" class="action-btn secondary-btn" type="button">RELLENAR CON EJEMPLOS</button>
+                <button id="start-game-btn" class="action-btn primary-btn" type="button" disabled>COMENZAR · FALTAN 16</button>
             </div>
         </div>
 
-        <div id="shadow-overlay" class="shadow-overlay"></div>
+        <!-- PANTALLA 3: JUEGO / CAPTURA -->
+        <div id="game-screen" class="game-screen hidden" aria-label="Juego">
+            <div class="top-bar">
+                <button id="btnClose" class="back-btn" type="button" aria-label="Salir del juego">×</button>
+                <span class="step-badge yellow-badge">
+                    <img class="ball-icon" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" alt="">
+                    <span id="caughtCount">0/16</span>
+                </span>
+                <button id="btnTeams" class="step-badge action-pill" type="button">EQUIPOS</button>
+            </div>
 
+            <div class="encounter">
+                <div class="wildTag">
+                    <img class="ball-icon" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" alt="">
+                    <div>
+                        <strong id="wildName">???</strong>
+                        <small id="wildLevel">salvaje · Nvl. ??</small>
+                    </div>
+                </div>
+
+                <div id="slot" class="slot">
+                    <img id="throwBall" class="slotBall" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" alt="">
+                    <span class="slotFlash"></span>
+                    <img id="sprite" class="slotSprite" alt="">
+                </div>
+            </div>
+
+            <div class="players-card dialog-card">
+                <p id="dialogText" class="dialogText" aria-live="polite">
+                    ¡Un Pokémon salvaje apareció!<br>¿A quién pertenecerá?
+                </p>
+                <button id="btnCatch" class="action-btn primary-btn ready btnBig" type="button">
+                    <img class="ball-icon" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" alt="">
+                    <span id="catchLabel">ATRAPAR</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- PÁGINA 4: HOJA DE EQUIPOS -->
+        <dialog id="teamsDialog" class="teams" aria-labelledby="teamsTitle">
+            <button id="btnTeamsClose" class="teamsHandle" type="button" aria-label="Cerrar equipos"></button>
+
+            <header class="teamsHeader">
+                <h2 id="teamsTitle" class="title">Equipos</h2>
+                <span id="teamsCounter" class="step-badge yellow-badge">0/16</span>
+            </header>
+
+            <ul id="teamList" class="teamGrid"></ul>
+
+            <div class="teamsFooter">
+                <button id="btnFinish" class="action-btn primary-btn ready" type="button" hidden>VER RESULTADOS FINALES</button>
+            </div>
+        </dialog>
+
+        <!-- PANTALLA 5: PANTALLA FINAL (RESULTADOS) -->
+        <div id="final-screen" class="final-screen hidden">
+            <div class="final-content">
+                <h1 class="final-title">¡COMPLETO!</h1>
+                <div class="final-board">
+                    <div id="final-grid" class="final-grid"></div>
+                </div>
+                <div class="final-actions">
+                    <button id="play-again-btn" class="action-btn primary-btn ready" type="button">JUGAR OTRA VEZ</button>
+                    <button id="copy-results-btn" class="action-btn secondary-btn" type="button">COPIAR RESULTADOS</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- BANNER COOKIES Y AUDIOS -->
+        <div id="shadow-overlay" class="shadow-overlay"></div>
         <div id="cookie-banner" class="cookie-banner">
             <p>¡HA APARECIDO UN AVISO DE COOKIES SALVAJE!<br><br>ESTE SITIO UTILIZA COOKIES PARA GUARDAR TU PARTIDA. ¿QUÉ DEBERÍA HACER EL JUGADOR?</p>
             <div class="cookie-buttons">
