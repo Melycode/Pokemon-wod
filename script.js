@@ -1,6 +1,6 @@
 // PARTE 1
 const maxPlayers = 16;
-const minPlayers = 4; // Añadido el mínimo de jugadores
+const minPlayers = 4; 
 const throwDuration = 1600;
 
 let gameState = {
@@ -262,7 +262,6 @@ function updatePlayersUI(animateFrom = Infinity) {
         namesGrid.appendChild(pill);
     });
 
-    // Lógica dinámica para permitir jugar con mínimo 4 personas
     startGameBtn.disabled = total < minPlayers;
     
     if (total >= minPlayers) {
@@ -360,13 +359,11 @@ function openGameScreen() {
     playersScreen.classList.add('hidden');
     gameScreen.classList.remove('hidden');
     
-    // El contador ahora se basa en cuánta gente está jugando realmente
     caughtCount.textContent = `${gameState.teams.length}/${gameState.names.length}`;
     resetEncounter();
 }
 
 function resetEncounter() {
-    // Detecta el final basándose en el total de participantes elegidos
     if (gameState.pending.length === 0 && gameState.teams.length === gameState.names.length) {
         showFinalScreen();
         return;
@@ -429,7 +426,6 @@ async function catchPokemon() {
         level: currentWildLevel
     });
 
-    // Actualiza contador dinámico
     caughtCount.textContent = `${gameState.teams.length}/${gameState.names.length}`;
 
     await wait(1800); 
@@ -491,14 +487,12 @@ function createTeamCard(name) {
 
 function openTeams() {
     teamList.innerHTML = "";
-    // Contador dinámico
     teamsCounter.textContent = `${gameState.teams.length}/${gameState.names.length}`;
 
     for (const name of gameState.names) {
         teamList.appendChild(createTeamCard(name));
     }
 
-    // Comprueba si están todos basándose en los jugadores reales
     const isFinished = gameState.pending.length === 0 && gameState.teams.length === gameState.names.length;
     btnFinish.hidden = !isFinished;
 
