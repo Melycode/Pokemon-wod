@@ -1,16 +1,62 @@
-// PARTE 1
 const maxPlayers = 16;
 const minPlayers = 4; 
 const throwDuration = 1600;
 
-let gameState = {
-    names: [],
-    pending: [],
-    teams: [],
-    usedIds: new Set(),
-    lastCaughtName: "",
-    phase: "ready"
-};
+// --- CLAVE PARA LOCALSTORAGE ---
+const STORAGE_KEY = 'mystery_catch_teams_data';
+
+// --- ESTADO INICIAL / CARGA DESDE LOCALSTORAGE ---
+function loadInitialState() {
+    const savedData = localStorage.getItem(STORAGE_KEY);
+    if (savedData) {
+        try {
+            const parsed = JSON.parse(savedData);
+            return {
+                names: parsed.names || [],
+                pending: parsed.pending || [],
+                teams: parsed.teams || [],
+                usedIds: new Set(parsed.usedIds || []),
+                lastCaughtName: parsed.lastCaughtName || "",
+                phase: "ready"
+            };
+        } catch (e) {
+            console.error('Error al cargar localStorage:', e);
+        }
+    }
+    return {
+        names: [],
+        pending: [],
+        teams: [],
+        usedIds: new Set(),
+        lastCaughtName: "",
+        phase: "ready"
+    };
+}
+
+let gameState = loadInitialState();
+
+function saveGameState() {
+    const dataToSave = {
+        names: gameState.names,
+        pending: gameState.pending,
+        teams: gameState.teams,
+        usedIds: Array.from(gameState.usedIds),
+        lastCaughtName: gameState.lastCaughtName
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
+}
+
+function clearGameState() {
+    localStorage.removeItem(STORAGE_KEY);
+    gameState = {
+        names: [],
+        pending: [],
+        teams: [],
+        usedIds: new Set(),
+        lastCaughtName: "",
+        phase: "ready"
+    };
+}
 
 const LOCAL_POKEMON_LIST = [
     { id: 1, name: "Bulbasaur", sprite: "https://res.cloudinary.com/det6jfwzx/image/upload/v1792662482/bulbasaur.gif" },
@@ -32,10 +78,11 @@ const LOCAL_POKEMON_LIST = [
 ];
 
 const exampleNames = [
-    "Julián", "Melisa", "Nacho", "Alfonso", "Jaime", "Luis", "Daniel", "Dani", 
-    "Manuel", "Nerea", "Carlos", "Diego", "Alba", "Brandon", "Rafel", "Paloma"
+    "Julián", "Melissa", "Nacho", "Alfonso", "Jaime", "Luis", "Daniel", "Dani", 
+    "Manuel", "Nerea", "Carlos", "Diego", "Alba", "Brandon", "Rafael", "Paloma"
 ];
 
+// --- ELEMENTOS DEL DOM ---
 const startBtn = document.getElementById('start-btn');
 const progressBar = document.getElementById('progress-bar');
 const startBg = document.getElementById('start-bg');
@@ -85,7 +132,10 @@ const copyResultsBtn = document.getElementById('copy-results-btn');
 
 let audioContext = null;
 let soundOn = true;
+let currentWildPokemon = null;
+let currentWildLevel = 5;
 
+// --- SISTEMA DE SONIDO ---
 function getAudioContext() {
     if (!audioContext) audioContext = new (window.AudioContext || window.webkitAudioContext)();
     if (audioContext.state === "suspended") audioContext.resume();
@@ -147,6 +197,7 @@ function manageCookies() {
 btnAccept.addEventListener('click', manageCookies);
 btnDeny.addEventListener('click', manageCookies);
 
+// --- ANIMACIÓN BOTÓN START ---
 let interval = null;
 let emptyInterval = null;
 let progress = 0;
@@ -197,7 +248,13 @@ function actionCompleted() {
     startBg.classList.add('hidden');
     playersBg.classList.remove('hidden');
     
-    playersScreen.classList.remove('hidden');
+    // Si ya teníamos una partida en curso guardada en localStorage, saltamos al juego
+    if (gameState.names.length >= minPlayers && gameState.teams.length > 0) {
+        openGameScreen();
+    } else {
+        playersScreen.classList.remove('hidden');
+    }
+
     progress = 0; progressBar.style.width = '0%';
 }
 
@@ -208,7 +265,7 @@ startBtn.addEventListener('touchstart', startPress, { passive: false });
 window.addEventListener('touchend', stopPress);
 startBtn.addEventListener('touchcancel', stopPress);
 
-// PARTE 2
+// --- GESTIÓN DE JUGADORES ---
 function initSegments() {
     segmentsBar.innerHTML = '';
     for (let i = 0; i < maxPlayers; i++) {
@@ -273,6 +330,7 @@ function updatePlayersUI(animateFrom = Infinity) {
     }
     
     playerInput.disabled = total >= maxPlayers;
+    saveGameState();
 }
 
 function addPlayer(text) {
@@ -343,13 +401,13 @@ startGameBtn.addEventListener('click', () => {
     gameState.teams = [];
     gameState.usedIds.clear();
     gameState.lastCaughtName = "";
+    saveGameState();
     openGameScreen();
 });
 
 initSegments();
 
-
-// PARTE 3
+// --- LÓGICA DE CAPTURA Y JUEGO ---
 const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -372,6 +430,8 @@ function resetEncounter() {
     gameState.phase = "ready";
     
     let availablePokemon = LOCAL_POKEMON_LIST.filter(p => !gameState.usedIds.has(p.id));
+    if (availablePokemon.length === 0) availablePokemon = LOCAL_POKEMON_LIST;
+
     currentWildPokemon = availablePokemon[randomInt(0, availablePokemon.length - 1)];
     currentWildLevel = randomInt(5, 50);
 
@@ -426,6 +486,7 @@ async function catchPokemon() {
         level: currentWildLevel
     });
 
+    saveGameState();
     caughtCount.textContent = `${gameState.teams.length}/${gameState.names.length}`;
 
     await wait(1800); 
@@ -442,19 +503,14 @@ btnCatch.addEventListener('click', () => {
 btnClose.addEventListener('click', () => {
     if (confirm("¿Volver a la selección de jugadores? Se reiniciará la captura actual.")) {
         closeTeams();
-        gameState.pending = [];
-        gameState.teams = [];
-        gameState.usedIds.clear();
-        gameState.lastCaughtName = "";
-        
+        clearGameState();
         updatePlayersUI();
         gameScreen.classList.add('hidden');
         playersScreen.classList.remove('hidden');
     }
 });
 
-
-// PARTE 4
+// --- DIÁLOGO DE EQUIPOS ---
 function createTeamCard(name) {
     const team = gameState.teams.find((t) => t.name === name);
 
@@ -530,8 +586,7 @@ document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") closeTeams();
 });
 
-
-// PARTE 5
+// --- PANTALLA FINAL Y RESULTADOS ---
 function showFinalScreen() {
     closeTeams();
     gameScreen.classList.add('hidden');
@@ -604,11 +659,7 @@ copyResultsBtn.addEventListener('click', async () => {
 });
 
 playAgainBtn.addEventListener('click', () => {
-    gameState.pending = [];
-    gameState.teams = [];
-    gameState.usedIds.clear();
-    gameState.lastCaughtName = "";
-
+    clearGameState();
     finalScreen.classList.add('hidden');
     gameScreen.classList.add('hidden');
     playersScreen.classList.remove('hidden');
