@@ -1,3 +1,4 @@
+// PARTE 1
 const maxPlayers = 16;
 const throwDuration = 1600;
 
@@ -9,6 +10,9 @@ let gameState = {
     lastCaughtName: "",
     phase: "ready"
 };
+
+let currentWildPokemon = null;
+let currentWildLevel = 0;
 
 const LOCAL_POKEMON_LIST = [
     { id: 1, name: "Bulbasaur", sprite: "https://res.cloudinary.com/det6jfwzx/image/upload/v1792662482/bulbasaur.gif" },
@@ -34,7 +38,6 @@ const exampleNames = [
     "Manuel", "Nerea", "Carlos", "Diego", "Alba", "Brandon", "Rafel", "Paloma"
 ];
 
-// Nodos del DOM (Pantalla 1 y Fondos)
 const startBtn = document.getElementById('start-btn');
 const progressBar = document.getElementById('progress-bar');
 const startBg = document.getElementById('start-bg');
@@ -44,12 +47,10 @@ const cookieBanner = document.getElementById('cookie-banner');
 const btnAccept = document.getElementById('btn-accept');
 const btnDeny = document.getElementById('btn-deny');
 
-// Nodos de Audio
 const loadingAudio = document.getElementById('loading-audio');
 const backgroundAudio = document.getElementById('background-audio');
 const playersAudio = document.getElementById('players-audio');
 
-// Nodos Pantalla 2
 const playersScreen = document.getElementById('players-screen');
 const backBtn = document.getElementById('back-btn');
 const nameForm = document.getElementById('nameForm');
@@ -61,7 +62,6 @@ const namesGrid = document.getElementById('names-grid');
 const fillExamplesBtn = document.getElementById('fill-examples-btn');
 const startGameBtn = document.getElementById('start-game-btn');
 
-// Nodos Pantalla 3
 const gameScreen = document.getElementById('game-screen');
 const btnClose = document.getElementById('btnClose');
 const caughtCount = document.getElementById('caughtCount');
@@ -74,19 +74,16 @@ const dialogText = document.getElementById('dialogText');
 const btnCatch = document.getElementById('btnCatch');
 const catchLabel = document.getElementById('catchLabel');
 
-// Nodos Página 4
 const teamsDialog = document.getElementById('teamsDialog');
 const teamsCounter = document.getElementById('teamsCounter');
 const btnTeamsClose = document.getElementById('btnTeamsClose');
 const teamList = document.getElementById('teamList');
 const btnFinish = document.getElementById('btnFinish');
 
-// Nodos Pantalla 5
 const finalScreen = document.getElementById('final-screen');
 const finalGrid = document.getElementById('final-grid');
 const playAgainBtn = document.getElementById('play-again-btn');
 const copyResultsBtn = document.getElementById('copy-results-btn');
-
 
 let audioContext = null;
 let soundOn = true;
@@ -137,8 +134,6 @@ function playSound(name) {
     try { sounds[name](); } catch {}
 }
 
-
-// --- LÓGICA PANTALLA 1 (START Y COOKIES) ---
 function startBackgroundMusic() {
     backgroundAudio.volume = 0.3;
     backgroundAudio.play().catch(e => console.log("Autoplay bloqueado", e));
@@ -215,8 +210,7 @@ startBtn.addEventListener('touchstart', startPress, { passive: false });
 window.addEventListener('touchend', stopPress);
 startBtn.addEventListener('touchcancel', stopPress);
 
-
-//LÓGICA PANTALLA 2
+// PARTE 2
 function initSegments() {
     segmentsBar.innerHTML = '';
     for (let i = 0; i < maxPlayers; i++) {
@@ -356,7 +350,7 @@ startGameBtn.addEventListener('click', () => {
 initSegments();
 
 
-//LÓGICA PANTALLA 3
+// PARTE 3
 const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -376,11 +370,21 @@ function resetEncounter() {
     }
 
     gameState.phase = "ready";
-    slot.classList.remove("isThrowing", "isRevealed");
-    sprite.removeAttribute("src");
+    
+    let availablePokemon = LOCAL_POKEMON_LIST.filter(p => !gameState.usedIds.has(p.id));
+    currentWildPokemon = availablePokemon[randomInt(0, availablePokemon.length - 1)];
+    currentWildLevel = randomInt(5, 50);
+
+    slot.classList.remove("isThrowing");
+    slot.classList.add("isRevealed");
+    
+    sprite.src = currentWildPokemon.sprite;
+    sprite.alt = currentWildPokemon.name;
+    
     wildName.textContent = "???";
-    wildLevel.textContent = "salvaje · Nvl. ??";
-    dialogText.innerHTML = "¡Un Pokémon salvaje apareció!<br>¿A quién pertenecerá?";
+    wildLevel.textContent = `${currentWildPokemon.name} salvaje · Nvl. ${currentWildLevel}`;
+    dialogText.innerHTML = `¡Un ${currentWildPokemon.name} salvaje apareció!<br>¿A quién pertenecerá?`;
+    
     catchLabel.textContent = "ATRAPAR";
     btnCatch.disabled = gameState.pending.length === 0;
     btnCatch.classList.toggle('ready', gameState.pending.length > 0);
@@ -395,12 +399,8 @@ async function catchPokemon() {
 
     const index = randomInt(0, gameState.pending.length - 1);
     const name = gameState.pending.splice(index, 1)[0];
-
-    let availablePokemon = LOCAL_POKEMON_LIST.filter(p => !gameState.usedIds.has(p.id));
-    const selectedPokemon = availablePokemon[randomInt(0, availablePokemon.length - 1)];
-    gameState.usedIds.add(selectedPokemon.id);
-
-    const level = randomInt(5, 50);
+    
+    gameState.usedIds.add(currentWildPokemon.id);
     gameState.lastCaughtName = name;
 
     slot.classList.remove("isRevealed");
@@ -409,24 +409,22 @@ async function catchPokemon() {
     playSound("throwBall");
     dialogText.textContent = "¡Adelante, Poké Ball…!";
 
-    sprite.src = selectedPokemon.sprite;
-
     await wait(throwDuration);
 
+    // ¡Atrapado! El Pokémon vuelve a salir y desvela al ganador
     slot.classList.remove("isThrowing");
     slot.classList.add("isRevealed");
     playSound("caught");
 
-    sprite.alt = selectedPokemon.name;
     wildName.textContent = name;
-    wildLevel.textContent = `salvaje · Nvl. ${level}`;
+    dialogText.innerHTML = `¡Atrapado!<br>${currentWildPokemon.name} es para ${name}.`;
 
     gameState.teams.push({
         name: name,
-        id: selectedPokemon.id,
-        pokemon: selectedPokemon.name,
-        sprite: selectedPokemon.sprite,
-        level: level
+        id: currentWildPokemon.id,
+        pokemon: currentWildPokemon.name,
+        sprite: currentWildPokemon.sprite,
+        level: currentWildLevel
     });
 
     caughtCount.textContent = `${gameState.teams.length}/${maxPlayers}`;
@@ -457,7 +455,7 @@ btnClose.addEventListener('click', () => {
 });
 
 
-// --- LÓGICA PÁGINA 4 (HOJA DE EQUIPOS) ---
+// PARTE 4
 function createTeamCard(name) {
     const team = gameState.teams.find((t) => t.name === name);
 
@@ -534,7 +532,7 @@ document.addEventListener("keydown", (event) => {
 });
 
 
-//LÓGICA PANTALLA 5
+// PARTE 5
 function showFinalScreen() {
     closeTeams();
     gameScreen.classList.add('hidden');

@@ -15,23 +15,36 @@
 <body>
     <div class="screen-container">
         
+        <!-- PARTE 1 -->
         <picture id="start-bg">
             <source media="(max-width: 768px)" srcset="https://res.cloudinary.com/dbadhyp7x/image/upload/v1793181951/Gemini_Generated_Image_lc1qpmlc1qpmlc1q_fayu75.jpg">
-            <img src="https://res.cloudinary.com/dbadhyp7x/image/upload/v1793182129/Gemini_Generated_Image_ud45rfud45rfud45_gwbcxa.jpg" alt="Captura Misteriosa Background" class="background-image">
+            <img src="https://res.cloudinary.com/dbadhyp7x/image/upload/v1793182129/Gemini_Generated_Image_ud45rfud45rfud45_gwbcxa.jpg" alt="Fondo Portada" class="background-image">
         </picture>
 
-        <picture id="players-bg" class="hidden">
-            <source media="(max-width: 768px)" srcset="https://res.cloudinary.com/dbadhyp7x/image/upload/v1793010115/Paisaje_Pixelado_Bajo_el_Sol_xrwzjh.png">
-            <img src="https://res.cloudinary.com/dbadhyp7x/image/upload/v1793007613/image_10_qsruzy.png" alt="Players Screen Background" class="background-image">
-        </picture>
-
-        <!--PANTALLA 1: PORTADA -->
         <button id="start-btn" class="start-button">
             <div id="progress-bar" class="progress-bar"></div>
             <span class="start-text">START</span>
         </button>
 
-        <!-- PANTALLA 2: JUGADORES -->
+        <div id="shadow-overlay" class="shadow-overlay"></div>
+        <div id="cookie-banner" class="cookie-banner">
+            <p>¡HA APARECIDO UN AVISO DE COOKIES SALVAJE!<br><br>ESTE SITIO UTILIZA COOKIES PARA GUARDAR TU PARTIDA. ¿QUÉ DEBERÍA HACER EL JUGADOR?</p>
+            <div class="cookie-buttons">
+                <button id="btn-accept" class="cookie-btn">ACEPTAR</button>
+                <button id="btn-deny" class="cookie-btn">HUIR</button>
+            </div>
+        </div>
+
+        <audio id="loading-audio" src="sonido-start.mp3" preload="auto"></audio>
+        <audio id="background-audio" src="tema-fondo.mp3" loop preload="auto"></audio>
+        <audio id="players-audio" src="bg-ost.mp3" loop preload="auto"></audio>
+
+        <!-- PARTE 2 -->
+        <picture id="players-bg" class="hidden">
+            <source media="(max-width: 768px)" srcset="https://res.cloudinary.com/dbadhyp7x/image/upload/v1793010115/Paisaje_Pixelado_Bajo_el_Sol_xrwzjh.png">
+            <img src="https://res.cloudinary.com/dbadhyp7x/image/upload/v1793007613/image_10_qsruzy.png" alt="Fondo Jugadores" class="background-image">
+        </picture>
+
         <div id="players-screen" class="players-screen hidden">
             <div class="top-bar">
                 <button id="back-btn" class="back-btn" type="button" aria-label="Volver">←</button>
@@ -68,7 +81,7 @@
             </div>
         </div>
 
-        <!-- PANTALLA 3: JUEGO / CAPTURA -->
+        <!-- PARTE 3 -->
         <div id="game-screen" class="game-screen hidden" aria-label="Juego">
             <div class="top-bar">
                 <button id="btnClose" class="back-btn" type="button" aria-label="Salir del juego">×</button>
@@ -106,7 +119,7 @@
             </div>
         </div>
 
-        <!-- PÁGINA 4: HOJA DE EQUIPOS -->
+        <!-- PARTE 4 -->
         <dialog id="teamsDialog" class="teams" aria-labelledby="teamsTitle">
             <button id="btnTeamsClose" class="teamsHandle" type="button" aria-label="Cerrar equipos"></button>
 
@@ -122,7 +135,7 @@
             </div>
         </dialog>
 
-        <!-- PANTALLA 5: PANTALLA FINAL (RESULTADOS) -->
+        <!-- PARTE 5 -->
         <div id="final-screen" class="final-screen hidden">
             <div class="final-content">
                 <h1 class="final-title">¡COMPLETO!</h1>
@@ -135,19 +148,6 @@
                 </div>
             </div>
         </div>
-
-        <div id="shadow-overlay" class="shadow-overlay"></div>
-        <div id="cookie-banner" class="cookie-banner">
-            <p>¡HA APARECIDO UN AVISO DE COOKIES SALVAJE!<br><br>ESTE SITIO UTILIZA COOKIES PARA GUARDAR TU PARTIDA. ¿QUÉ DEBERÍA HACER EL JUGADOR?</p>
-            <div class="cookie-buttons">
-                <button id="btn-accept" class="cookie-btn">ACEPTAR</button>
-                <button id="btn-deny" class="cookie-btn">HUIR</button>
-            </div>
-        </div>
-
-        <audio id="loading-audio" src="sonido-start.mp3" preload="auto"></audio>
-        <audio id="background-audio" src="tema-fondo.mp3" loop preload="auto"></audio>
-        <audio id="players-audio" src="bg-ost.mp3" loop preload="auto"></audio>
         
     </div>
     <script src="script.js"></script>

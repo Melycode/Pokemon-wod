@@ -1,3 +1,4 @@
+/* PARTE 1 */
 * {
     margin: 0;
     padding: 0;
@@ -35,7 +36,6 @@ html, body {
     pointer-events: none; 
 }
 
-/*PANTALLA 1: BOTÓN START*/
 .start-button {
     position: absolute;
     bottom: 15%; 
@@ -76,7 +76,25 @@ html, body {
     pointer-events: none; 
 }
 
-/*ESTRUCTURA GENERAL DE PANTALLAS (2 Y 3)*/
+.shadow-overlay { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0,0,0,0.7); z-index: 90; }
+.cookie-banner {
+    position: absolute; bottom: 5%; left: 50%; transform: translateX(-50%);
+    width: 90%; max-width: 800px; background-color: #FFFFFF;
+    border: 6px solid #365AAB; border-radius: 8px;
+    box-shadow: 0 0 0 4px #FCCF01, 0 10px 20px rgba(0,0,0,0.8);
+    padding: 25px 30px; z-index: 100; display: flex; flex-direction: column; gap: 25px;
+}
+.cookie-banner p { color: #000000; font-size: clamp(12px, 1.5vw, 18px); line-height: 1.8; margin: 0; }
+.cookie-buttons { display: flex; justify-content: flex-end; gap: 20px; }
+.cookie-btn {
+    background-color: #FCCF01; border: 4px solid #365AAB; color: #365AAB;
+    padding: 12px 20px; font-size: clamp(10px, 1.2vw, 14px); cursor: pointer;
+    box-shadow: -3px 3px 0 #000; transition: transform 0.1s, box-shadow 0.1s;
+}
+.cookie-btn:hover { background-color: #365AAB; color: #FCCF01; border-color: #FCCF01; }
+.cookie-btn:active { box-shadow: 0 0 0 #000; transform: translate(-3px, 3px); }
+
+/* PARTE 2 */
 .players-screen, .game-screen {
     position: relative;
     z-index: 20;
@@ -210,7 +228,7 @@ html, body {
 .primary-btn { background-color: #D6D2C4; color: #555555; }
 .primary-btn.ready { background-color: #FCCF01; color: #000000; }
 
-/*PANTALLA 3: CAPTURA*/
+/* PARTE 3 */
 .encounter { flex: 1; position: relative; }
 
 .wildTag {
@@ -248,7 +266,7 @@ html, body {
 .dialogText { font-size: 10px; line-height: 1.6; margin-bottom: 12px; text-align: center; }
 .btnBig { display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 12px; height: 54px; }
 
-/*PÁGINA 4: HOJA DE EQUIPOS*/
+/* PARTE 4 */
 dialog.teams {
     position: absolute;
     inset: auto 0 0 0;
@@ -365,11 +383,9 @@ dialog.teams:not([open]) { display: none; }
 .cardImgSlot img[alt*="Moltres" i], .final-pokemon-slot img[alt*="Moltres" i] { 
     transform: scale(1.3); 
 }
-
 .cardImgSlot img[alt*="Totodile" i], .final-pokemon-slot img[alt*="Totodile" i] { 
     transform: scale(.72); transform-origin: bottom center; 
 }
-
 .cardImgSlot img[alt*="Mewtwo" i], .final-pokemon-slot img[alt*="Mewtwo" i],
 .cardImgSlot img[alt*="Grovyle" i], .final-pokemon-slot img[alt*="Grovyle" i] { 
     transform: scale(.95); transform-origin: bottom center; 
@@ -423,14 +439,14 @@ dialog.teams:not([open]) { display: none; }
     font-family: "Press Start 2P", monospace;
     font-size: 24px;
     color: #5b5470;
-    margin: auto; /* Se centra perfectamente dejando espacio para el texto */
+    margin: auto; 
 }
 .teamCard.isPending .statusBadge { color: #5b5470; }
 
 .teamsFooter { flex-shrink: 0; }
 .teamsFooter:has(> [hidden]:only-child) { display: none; }
 
-/*PANTALLA 5: PANTALLA FINAL*/
+/* PARTE 5 */
 .final-screen {
     position: relative;
     z-index: 25;
@@ -539,25 +555,6 @@ dialog.teams:not([open]) { display: none; }
     flex-shrink: 0;
 }
 
-.shadow-overlay { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0,0,0,0.7); z-index: 90; }
-.cookie-banner {
-    position: absolute; bottom: 5%; left: 50%; transform: translateX(-50%);
-    width: 90%; max-width: 800px; background-color: #FFFFFF;
-    border: 6px solid #365AAB; border-radius: 8px;
-    box-shadow: 0 0 0 4px #FCCF01, 0 10px 20px rgba(0,0,0,0.8);
-    padding: 25px 30px; z-index: 100; display: flex; flex-direction: column; gap: 25px;
-}
-.cookie-banner p { color: #000000; font-size: clamp(12px, 1.5vw, 18px); line-height: 1.8; margin: 0; }
-.cookie-buttons { display: flex; justify-content: flex-end; gap: 20px; }
-.cookie-btn {
-    background-color: #FCCF01; border: 4px solid #365AAB; color: #365AAB;
-    padding: 12px 20px; font-size: clamp(10px, 1.2vw, 14px); cursor: pointer;
-    box-shadow: -3px 3px 0 #000; transition: transform 0.1s, box-shadow 0.1s;
-}
-.cookie-btn:hover { background-color: #365AAB; color: #FCCF01; border-color: #FCCF01; }
-.cookie-btn:active { box-shadow: 0 0 0 #000; transform: translate(-3px, 3px); }
-
-/*KEYFRAMES*/
 @keyframes sheetUp { from { transform: translateY(100%); } }
 @keyframes pop { from { transform: scale(.7); opacity: 0; } }
 @keyframes appear { from { transform: scale(.4); opacity: 0; } }
@@ -654,11 +651,7 @@ dialog.teams:not([open]) { display: none; }
         border-radius: 40px 40px 0 0;
     }
     
-    .teamCard.isPending .placeholder {
-        width: 80px;
-        height: 80px;
-        font-size: 34px;
-    }
+    .teamCard.isPending .placeholder { width: 80px; height: 80px; font-size: 34px; }
 
     .final-grid { grid-template-columns: repeat(8, 1fr); gap: 12px; }
     .final-player-card { padding: 8px 6px; }
