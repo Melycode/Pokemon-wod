@@ -1,168 +1,168 @@
 # Captura Misteriosa
 
-**Wheel of Doom con Pokémon.** Una forma justa y aleatoria de repartir 16 Pokémon entre 16 jugadores, en pixel art.
+**Wheel of Doom with Pokémon.** A fair and random way to hand out 16 Pokémon to 16 players, in pixel art.
 
-## Índice
+## Contents
 
 - [Briefing](#briefing)
-- [El proyecto](#el-proyecto)
-- [Cómo se juega](#cómo-se-juega)
-- [Maquetas](#maquetas)
-- [Tecnologías y herramientas](#tecnologías-y-herramientas)
-- [Metodología](#metodología)
-- [Estructura del proyecto](#estructura-del-proyecto)
-- [Cómo ejecutarlo](#cómo-ejecutarlo)
-- [Equipo](#equipo)
+- [The project](#the-project)
+- [How to play](#how-to-play)
+- [Mockups](#mockups)
+- [Technologies and tools](#technologies-and-tools)
+- [Methodology](#methodology)
+- [Project structure](#project-structure)
+- [How to run it](#how-to-run-it)
+- [Team](#team)
 
 ## Briefing
 
-La asociación **Sacrificios SA**, organizadora de eventos como *La Purga*, *El Laberinto*, *Los Juegos del Hambre* o *El Juego del Calamar*, nos encarga una aplicación web para su nuevo evento de sacrificio de desarrolladores y desarrolladoras. La aplicación tiene que ser **un sistema justo y aleatorio** que haga un sorteo a partir de una lista de nombres.
+The association **Sacrificios SA**, organizer of events such as *The Purge*, *The Maze Runner*, *The Hunger Games* and *Squid Game*, has asked us for a web application for its new developer sacrifice event. The application must be **a fair and random system** that draws names from a list.
 
-Requisitos principales del encargo:
+Main requirements of the brief:
 
-- Recibir una lista de nombres y poder **añadir o eliminar** nombres.
-- Elegir un nombre al azar y **mostrar un aviso** con el elegido.
-- Un nombre elegido **no vuelve a salir** hasta que se reinicia la aplicación.
-- Avisar cuando sale el **último nombre**.
-- Tener **pantalla de inicio**, **botón de reinicio**, **animaciones**, **transiciones** y **efectos de sonido**.
-- Ser **mobile first** y **responsive** en al menos dos puntos de ruptura.
-- El diseño tiene que ser creativo y entretenido: **no puede ser la típica ruleta**. El tema es libre.
+- Receive a list of names and be able to **add or remove** names.
+- Pick a name at random and **show a notice** with the chosen one.
+- A chosen name **does not come up again** until the application is restarted.
+- Show a notice when the **last name** comes up.
+- Have a **start screen**, a **restart button**, **animations**, **transitions** and **sound effects**.
+- Be **mobile first** and **responsive** for at least two breakpoints.
+- The design must be creative and fun: **it can't be the typical wheel**. The theme is free.
 
-## El proyecto
+## The project
 
-Nuestro tema es **Pokémon**. En vez de una ruleta, cada turno aparece un **Pokémon salvaje** y, al lanzar la Poké Ball, el juego decide al azar **a qué jugador le pertenece**. Cada jugador que sale ya no vuelve a salir, igual que cada Pokémon. Al final, los 16 jugadores tienen su Pokémon.
+Our theme is **Pokémon**. Instead of a wheel, each turn a **wild Pokémon** appears and, when the Poké Ball is thrown, the game randomly decides **which player it belongs to**. A player who has been picked doesn't come up again, and neither does a Pokémon. At the end, all 16 players have their Pokémon.
 
-El sorteo es justo porque en cada lanzamiento todos los jugadores que quedan tienen la misma probabilidad de salir.
+The draw is fair because on every throw all the remaining players have the same chance of being picked.
 
-## Cómo se juega
+## How to play
 
-1. **Portada.** Aparece el aviso de cookies. Después, mantén pulsado **START** hasta que se llene la barra.
-2. **¿Quién juega?** Escribe 16 nombres o pulsa **RELLENAR CON EJEMPLOS**. No se pueden repetir nombres y cada uno se puede borrar con la **×**. Con los 16 nombres se activa **¡COMENZAR PARTIDA!**.
-3. **Captura.** Aparece un Pokémon salvaje. Pulsa **ATRAPAR**: la Poké Ball sale disparada y se descubre el jugador al que le ha tocado.
-4. **Equipos.** Después de cada captura se abre la hoja de equipos, con los jugadores que ya tienen Pokémon y los que siguen esperando. También se abre con el botón **EQUIPOS**.
-5. **Resultados.** Con los 16 Pokémon repartidos aparece **VER RESULTADOS FINALES**. Desde ahí se pueden **COPIAR RESULTADOS** o **JUGAR OTRA VEZ**.
+1. **Start screen.** The cookie notice appears. Then press and hold **START** until the bar fills up.
+2. **Who's playing?** Type 16 names or press **RELLENAR CON EJEMPLOS** (fill with examples). Names can't be repeated and each one can be removed with the **×**. With 16 names, **¡COMENZAR PARTIDA!** (start game) is enabled.
+3. **Catch.** A wild Pokémon appears. Press **ATRAPAR** (catch): the Poké Ball is thrown and the player who gets it is revealed.
+4. **Teams.** After each catch the teams sheet opens, showing the players who already have a Pokémon and the ones still waiting. It also opens with the **EQUIPOS** (teams) button.
+5. **Results.** Once all 16 Pokémon are handed out, **VER RESULTADOS FINALES** (see final results) appears. From there you can **COPIAR RESULTADOS** (copy results) or **JUGAR OTRA VEZ** (play again).
 
-Con la **×** de la partida se vuelve a la lista de jugadores y se reinicia la captura.
+The **×** on the game screen goes back to the player list and restarts the catch.
 
-## Maquetas
+## Mockups
 
-Diseñamos la interfaz en **Figma** siguiendo **Atomic Design**: primero las piezas pequeñas y después las pantallas completas. Antes de diseñar las pantallas hicimos el diagrama de flujo de la aplicación.
+We designed the interface in **Figma** following **Atomic Design**: first the small pieces and then the full screens. Before designing the screens we made the application's flowchart.
 
-Archivo de Figma: [Captura misteriosa](https://www.figma.com/design/oa9YKxtbhnVnhd6Jt2w5qy/Captura-misteriosa)
+Figma file: [Captura misteriosa](https://www.figma.com/design/oa9YKxtbhnVnhd6Jt2w5qy/Captura-misteriosa)
 
-### Diagrama de flujo
+### Flowchart
 
-![Diagrama de flujo](docs/maquetas/diagrama-flujo.png)
+![Flowchart](docs/maquetas/diagrama-flujo.png)
 
-### Páginas
+### Pages
 
-Las cinco pantallas del juego en móvil: portada, nombres, partida, equipos y final.
+The five game screens on mobile: start, names, game, teams and final.
 
-![Páginas](docs/maquetas/5-paginas.png)
+![Pages](docs/maquetas/5-paginas.png)
 
-### Átomos
+### Atoms
 
-Colores, tipografías, botones, iconos y otras piezas básicas.
+Colors, fonts, buttons, icons and other basic pieces.
 
-![Átomos](docs/maquetas/1-atomos.png)
+![Atoms](docs/maquetas/1-atomos.png)
 
-### Moléculas
+### Molecules
 
-Combinaciones de átomos, como el campo para añadir nombres o las etiquetas de jugador.
+Combinations of atoms, such as the field for adding names or the player tags.
 
-![Moléculas](docs/maquetas/2-moleculas.png)
+![Molecules](docs/maquetas/2-moleculas.png)
 
-### Organismos
+### Organisms
 
-Bloques completos, como la tarjeta de nombres, el encuentro con el Pokémon o la hoja de equipos.
+Complete blocks, such as the names card, the Pokémon encounter or the teams sheet.
 
-![Organismos](docs/maquetas/3-organismos.png)
+![Organisms](docs/maquetas/3-organismos.png)
 
-### Plantillas
+### Templates
 
-La estructura de cada pantalla, antes de añadir el contenido real.
+The structure of each screen, before adding the real content.
 
-![Plantillas](docs/maquetas/4-plantillas.png)
+![Templates](docs/maquetas/4-plantillas.png)
 
-## Tecnologías y herramientas
+## Technologies and tools
 
-**Tecnologías**
+**Technologies**
 
 - HTML
-- CSS (diseño mobile first y media queries)
-- JavaScript (DOM, eventos y funciones)
+- CSS (mobile first design and media queries)
+- JavaScript (DOM, events and functions)
 
-**Herramientas**
+**Tools**
 
-- Figma, para el diseño y el prototipo
+- Figma, for the design and the prototype
 - Visual Studio Code
-- Trello, para el tablero Kanban
-- Git y GitHub
+- Trello, for the Kanban board
+- Git and GitHub
 
-**Recursos externos**
+**External resources**
 
-- Fuentes *Press Start 2P* y *VT323* de Google Fonts
-- Sprites e imágenes de fondo alojados en Cloudinary y en [PokeAPI/sprites](https://github.com/PokeAPI/sprites)
-- Efectos de sonido creados con la Web Audio API y música en MP3
+- *Press Start 2P* and *VT323* fonts from Google Fonts
+- Sprites and background images hosted on Cloudinary and [PokeAPI/sprites](https://github.com/PokeAPI/sprites)
+- Sound effects made with the Web Audio API and MP3 music
 
-No hay backend: todo funciona en el navegador.
+There is no backend: everything runs in the browser.
 
-## Metodología
+## Methodology
 
-Trabajamos con metodologías ágiles:
+We worked with agile methodologies:
 
-- **Scrum**, con dos sprints de dos semanas, daily cada día y retrospectiva al final de cada sprint.
-- **Kanban** en Trello, con historias de usuario y tareas.
-- **Git** con una rama por tarea. Cada uno abre un pull request hacia `dev`, que es la rama donde se junta el trabajo del equipo.
+- **Scrum**, with two two-week sprints, a daily every day and a retrospective at the end of each sprint.
+- **Kanban** in Trello, with user stories and tasks.
+- **Git** with one branch per task. Each of us opens a pull request to `dev`, the branch where the team's work comes together.
 
-### Roles de Scrum
+### Scrum roles
 
-| Rol | Persona |
+| Role | Person |
 |---|---|
 | Product Owner | Melissa |
 | Scrum Master | Alfonso |
-| Equipo de desarrollo | Melissa, Alfonso, Julián y Nacho |
+| Development team | Melissa, Alfonso, Julián and Nacho |
 
-### Tablero Kanban
+### Kanban board
 
-El tablero de Trello tiene las historias de usuario, las columnas *To do*, *Doing* y *Done*, y etiquetas por tecnología y por dificultad: **Pokéball** (1-2 h), **Superball** (3-4 h) y **Ultraball** (5-8 h).
+The Trello board has the user stories, the *To do*, *Doing* and *Done* columns, and labels by technology and by difficulty: **Pokéball** (1-2 h), **Superball** (3-4 h) and **Ultraball** (5-8 h).
 
-![Tablero de Trello](docs/maquetas/trello.jpg)
+![Trello board](docs/maquetas/trello.jpg)
 
-### Historias de usuario
+### User stories
 
-- Como usuario, quiero una portada temática Pokémon con botón interactivo (pseudoclases y transición) para iniciar el evento.
-- Como organizador, quiero ver, agregar y eliminar nombres en el DOM para gestionar los participantes del sorteo.
-- Como organizador, quiero lanzar la Pokéball y elegir un dev al azar, descartándolo de la lista para no repetir sacrificados.
-- Como espectador, quiero ver la animación de la Pokéball mediante eventos y un aviso con el nombre capturado para darle emoción.
-- Como usuario, quiero escuchar sonidos al pulsar botones, lanzar la Pokéball y capturar para mejorar la inmersión.
-- Como organizador, quiero un botón de reinicio y que al capturar al último avise y vuelva al inicio para reiniciar el ciclo.
+- As a user, I want a Pokémon-themed start screen with an interactive button (pseudo-classes and transition) to start the event.
+- As an organizer, I want to see, add and remove names in the DOM to manage the participants of the draw.
+- As an organizer, I want to throw the Pokéball and pick a dev at random, removing them from the list so nobody is sacrificed twice.
+- As a spectator, I want to see the Pokéball animation through events and a notice with the caught name to make it exciting.
+- As a user, I want to hear sounds when I press buttons, throw the Pokéball and catch, to make it more immersive.
+- As an organizer, I want a restart button, and when the last one is caught I want a notice and to go back to the start to begin the cycle again.
 
-## Estructura del proyecto
+## Project structure
 
 ```
 Pokemon-wod/
-├── index.html        # Todas las pantallas del juego
-├── styles.css        # Estilos y diseño responsive
-├── script.js         # Lógica del juego
-├── sonido-start.mp3  # Sonido al mantener START
-├── tema-fondo.mp3    # Música de la portada
-├── bg-ost.mp3        # Música durante la partida
+├── index.html        # All the game screens
+├── styles.css        # Styles and responsive design
+├── script.js         # Game logic
+├── sonido-start.mp3  # Sound while holding START
+├── tema-fondo.mp3    # Start screen music
+├── bg-ost.mp3        # Music during the game
 └── docs/
-    └── maquetas/     # Imágenes de Figma y Trello para este README
+    └── maquetas/     # Figma and Trello images for this README
 ```
 
-El código está dividido en cinco partes, una por pantalla, marcadas con comentarios (`<!-- PARTE N -->` en el HTML y `// PARTE N` en el JS):
+The code is split into five parts, one per screen, marked with comments (`<!-- PARTE N -->` in the HTML and `// PARTE N` in the JS):
 
-| Parte | Pantalla | Qué hace |
+| Part | Screen | What it does |
 |---|---|---|
-| 1 | Portada | Botón START de mantener pulsado, aviso de cookies y música |
-| 2 | Jugadores | Formulario de 16 nombres con validación y barra de progreso |
-| 3 | Juego | Pokémon salvaje, lanzamiento de la Poké Ball y sorteo del jugador |
-| 4 | Equipos | Hoja con la cuadrícula 4x4 de jugadores y su Pokémon |
-| 5 | Final | Resultados, copiar al portapapeles y volver a jugar |
+| 1 | Start | Press-and-hold START button, cookie notice and music |
+| 2 | Players | Form for 16 names with validation and a progress bar |
+| 3 | Game | Wild Pokémon, Poké Ball throw and player draw |
+| 4 | Teams | Sheet with the 4x4 grid of players and their Pokémon |
+| 5 | Final | Results, copy to clipboard and play again |
 
-## Cómo ejecutarlo
+## How to run it
 
 ```bash
 git clone https://github.com/Melycode/Pokemon-wod.git
@@ -170,17 +170,17 @@ cd Pokemon-wod
 git checkout dev
 ```
 
-Abre `index.html` en el navegador o usa la extensión *Live Server* de Visual Studio Code. Hace falta conexión a internet para cargar las imágenes y las fuentes.
+Open `index.html` in the browser or use the *Live Server* extension for Visual Studio Code. An internet connection is needed to load the images and fonts.
 
-## Equipo
+## Team
 
-| Nombre | GitHub | Parte |
+| Name | GitHub | Part |
 |---|---|---|
-| Melissa | [Melycode](https://github.com/Melycode) | Pantalla de jugadores y juego |
-| Alfonso | [deterry69](https://github.com/deterry69) | Portada, cookies y música |
-| Julián | [JulianChavezdev](https://github.com/JulianChavezdev) | Hoja de equipos y últimos detalles |
-| Nacho | | Pantalla final |
+| Melissa | [Melycode](https://github.com/Melycode) | Players and game screens |
+| Alfonso | [deterry69](https://github.com/deterry69) | Start screen, cookies and music |
+| Julián | [JulianChavezdev](https://github.com/JulianChavezdev) | Teams sheet and final details |
+| Nacho | | Final screen |
 
 ---
 
-Proyecto educativo sin ánimo de lucro. Pokémon y sus sprites pertenecen a Nintendo, Game Freak y The Pokémon Company.
+Educational, non-profit project. Pokémon and its sprites belong to Nintendo, Game Freak and The Pokémon Company.
