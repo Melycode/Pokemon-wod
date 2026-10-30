@@ -764,6 +764,18 @@ dialog.teams:not([open]) { display: none; }
     .final-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     .final-actions .action-btn { height: 68px; font-size: 14px; border-width: 5px; }
 }
+/* Pantallas grandes (a partir de 1200px) */
+@media (min-width: 1200px) {
+    .start-button { width: 460px; height: 100px; }
+    .start-text { font-size: 34px; }
+
+    .game-screen { max-width: 1000px; }
+    .slot { width: 280px; height: 280px; }
+    .slotSprite { width: 280px; height: 280px; }
+    .slotFlash { width: 300px; height: 300px; }
+    .dialogText { font-size: 16px; }
+}
+
 /* Móvil en horizontal: la pantalla es muy baja, así que dejamos hacer scroll */
 @media (orientation: landscape) and (max-height: 500px) {
     html, body { height: auto; overflow-y: auto; }
