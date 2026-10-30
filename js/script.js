@@ -468,7 +468,11 @@ async function catchPokemon() {
     playSound("caught");
 
     wildName.textContent = name;
-    dialogText.innerHTML = `¡Atrapado!<br>${currentWildPokemon.name} es para ${name}.`;
+    if (gameState.pending.length === 0) {
+        dialogText.innerHTML = `¡Atrapado!<br>${currentWildPokemon.name} es para ${name}.<br>¡${name} ha sido el último!`;
+    } else {
+        dialogText.innerHTML = `¡Atrapado!<br>${currentWildPokemon.name} es para ${name}.`;
+    }
 
     gameState.teams.push({
         name: name,
