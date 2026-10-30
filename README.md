@@ -1,12 +1,42 @@
-# Captura Misteriosa
+<div align="center">
 
-**Wheel of Doom with Pokémon.** A fair and random way to hand out 16 Pokémon to 16 players, in pixel art.
+  <img src="https://github.com/user-attachments/assets/b681a551-7f62-4be3-b0a8-c34a55467da2" alt="Captura Misteriosa Logo" width="340" />
+  <h1>Captura Misteriosa</h1>
 
+  **Wheel of Doom with Pokémon.** 
+  
+  A fair and random way to hand out 16 Pokémon to 16 players, in pixel art.
+
+  <p>
+  <a href="https://github.com/Melycode/Pokemon-wod/blob/main/index.html" target="_blank">
+    <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5" />
+  </a>
+  <a href="https://github.com/Melycode/Pokemon-wod/blob/main/styles.css" target="_blank">
+    <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" alt="CSS3" />
+  </a>
+  <a href="https://github.com/Melycode/Pokemon-wod/blob/main/script.js" target="_blank">
+    <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript" />
+  </a>
+  <a href="https://www.figma.com/design/oa9YKxtbhnVnhd6Jt2w5qy/Captura-misteriosa?node-id=0-1&p=f&t=zK6BN5nntqECmczZ-0" target="_blank">
+    <img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white" alt="Figma" />
+  </a>
+  <a href="https://trello.com/b/86HIQ1fK/pokemon-wod" target="_blank">
+    <img src="https://img.shields.io/badge/Trello-0052CC?style=for-the-badge&logo=trello&logoColor=white" alt="Trello" />
+  </a>
+  <a href="https://melycode.github.io/Pokemon-wod/" target="_blank">
+    <img src="https://img.shields.io/badge/GitHub%20Pages-222222?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Pages" />
+  </a>
+</p>
+
+</div>
+
+---
 ## Contents
 
 - [Briefing](#briefing)
 - [The project](#the-project)
 - [How to play](#how-to-play)
+- [Screenshots of the deployed site](#screenshots-of-the-deployed-site)
 - [Mockups](#mockups)
 - [Technologies and tools](#technologies-and-tools)
 - [Methodology](#methodology)
@@ -44,6 +74,31 @@ The draw is fair because on every throw all the remaining players have the same 
 
 The **×** on the game screen goes back to the player list and restarts the catch.
 
+## Screenshots of the deployed site
+<div align="center">
+<img width="205" alt="Captura de pantalla 2026-10-29 231257" src="https://github.com/user-attachments/assets/c651d753-c42d-4acc-9695-e8743564d690" />
+<img width="200" alt="Captura de pantalla 2026-10-29 231320" src="https://github.com/user-attachments/assets/b82d4fbb-f6b8-4a21-bea9-f1ad525cbc92" />
+<img width="200" alt="Captura de pantalla 2026-10-29 231341" src="https://github.com/user-attachments/assets/0df505e5-ab60-469e-a8f3-a9a7f332a6a8" />
+<img width="200" alt="Captura de pantalla 2026-10-29 231352" src="https://github.com/user-attachments/assets/ff6c14d8-12a7-4789-8791-d7bcfc8874c2" />
+<img width="200" alt="Captura de pantalla 2026-10-29 231404" src="https://github.com/user-attachments/assets/a83396c4-145f-4bd9-9aaa-f61f0ecf4fce" />
+<img width="200" alt="Captura de pantalla 2026-10-29 231416" src="https://github.com/user-attachments/assets/a5516259-a28d-4343-8abe-914520338307" />
+<img width="200" alt="Captura de pantalla 2026-10-29 231714" src="https://github.com/user-attachments/assets/0f55906c-c09b-442e-afba-2de5fd76da32" />
+<img width="200" alt="Captura de pantalla 2026-10-29 231727" src="https://github.com/user-attachments/assets/47cfd69f-06e1-47a3-8eb6-f85cd12345f5" />
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+---
 ## Mockups
 
 We designed the interface in **Figma** following **Atomic Design**: first the small pieces and then the full screens. Before designing the screens we made the application's flowchart.
