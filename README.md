@@ -42,6 +42,7 @@
 - [Methodology](#methodology)
 - [Project structure](#project-structure)
 - [How to run it](#how-to-run-it)
+- [Tests](#tests)
 - [Team](#team)
 
 ## Briefing
@@ -67,12 +68,14 @@ The draw is fair because on every throw all the remaining players have the same 
 ## How to play
 
 1. **Start screen.** The cookie notice appears. Then press and hold **START** until the bar fills up.
-2. **Who's playing?** Type 16 names or press **RELLENAR CON EJEMPLOS** (fill with examples). Names can't be repeated and each one can be removed with the **×**. With 16 names, **¡COMENZAR PARTIDA!** (start game) is enabled.
-3. **Catch.** A wild Pokémon appears. Press **ATRAPAR** (catch): the Poké Ball is thrown and the player who gets it is revealed.
+2. **Who's playing?** Type between 4 and 16 names or press **RELLENAR CON EJEMPLOS** (fill with examples). Names can't be repeated and each one can be removed with the **×**. With at least 4 names, **¡COMENZAR PARTIDA!** (start game) is enabled.
+3. **Catch.** A wild Pokémon appears. Press **ATRAPAR** (catch): the Poké Ball is thrown and the player who gets it is revealed. When the last player is caught, the game shows a notice saying they were the last one.
 4. **Teams.** After each catch the teams sheet opens, showing the players who already have a Pokémon and the ones still waiting. It also opens with the **EQUIPOS** (teams) button.
-5. **Results.** Once all 16 Pokémon are handed out, **VER RESULTADOS FINALES** (see final results) appears. From there you can **COPIAR RESULTADOS** (copy results) or **JUGAR OTRA VEZ** (play again).
+5. **Results.** Once all 16 Pokémon are handed out, **VER RESULTADOS FINALES** (see final results) appears. From there you can **COPIAR RESULTADOS** (copy results) or **JUGAR OTRA VEZ** (play again), which goes back to the start screen.
 
 The **×** on the game screen goes back to the player list and restarts the catch.
+
+The game is saved in the browser with **localStorage**, so the player list is still there after reloading the page.
 
 ## Screenshots of the deployed site
 <div align="center">
@@ -144,8 +147,9 @@ The structure of each screen, before adding the real content.
 **Technologies**
 
 - HTML
-- CSS (mobile first design and media queries)
-- JavaScript (DOM, events and functions)
+- CSS (mobile first design, with breakpoints at 769px and 1200px and styles for phones in landscape)
+- JavaScript (DOM, events, functions and localStorage)
+- Jest, for the unit tests
 
 **Tools**
 
@@ -197,22 +201,27 @@ The Trello board has the user stories, the *To do*, *Doing* and *Done* columns, 
 
 ```
 Pokemon-wod/
-├── index.html        # All the game screens
-├── styles.css        # Styles and responsive design
-├── script.js         # Game logic
-├── sonido-start.mp3  # Sound while holding START
-├── tema-fondo.mp3    # Start screen music
-├── bg-ost.mp3        # Music during the game
+├── index.html              # All the game screens
+├── css/
+│   └── styles.css          # Styles and responsive design
+├── js/
+│   ├── game-logic.js       # Game functions without DOM (tested with Jest)
+│   └── script.js           # Screens, events and sounds
+├── assets/
+│   └── audio/              # Music and sound effects
+├── tests/
+│   └── game-logic.test.js  # Unit tests
+├── package.json            # Jest and the test script
 └── docs/
-    └── maquetas/     # Figma and Trello images for this README
+    └── maquetas/           # Figma and Trello images for this README
 ```
 
-The code is split into five parts, one per screen, marked with comments (`<!-- PARTE N -->` in the HTML and `// PARTE N` in the JS):
+The game has five screens:
 
 | Part | Screen | What it does |
 |---|---|---|
 | 1 | Start | Press-and-hold START button, cookie notice and music |
-| 2 | Players | Form for 16 names with validation and a progress bar |
+| 2 | Players | Form for 4 to 16 names with validation and a progress bar |
 | 3 | Game | Wild Pokémon, Poké Ball throw and player draw |
 | 4 | Teams | Sheet with the 4x4 grid of players and their Pokémon |
 | 5 | Final | Results, copy to clipboard and play again |
@@ -222,10 +231,18 @@ The code is split into five parts, one per screen, marked with comments (`<!-- P
 ```bash
 git clone https://github.com/Melycode/Pokemon-wod.git
 cd Pokemon-wod
-git checkout dev
 ```
 
 Open `index.html` in the browser or use the *Live Server* extension for Visual Studio Code. An internet connection is needed to load the images and fonts.
+
+## Tests
+
+The unit tests use **Jest** and check the game logic in `js/game-logic.js`: validating names (empty, repeated, too many), drawing a random name without repeats and knowing when the game is over.
+
+```bash
+npm install
+npm test
+```
 
 ## Team
 
