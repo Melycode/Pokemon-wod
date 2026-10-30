@@ -330,12 +330,10 @@ function updatePlayersUI(animateFrom = Infinity) {
 }
 
 function addPlayer(text) {
-    const name = text.trim();
-    if (!name) return "¡ESCRIBE UN NOMBRE PRIMERO!";
-    if (gameState.names.length >= maxPlayers) return "¡ERROR! MÁXIMO 16 JUGADORES";
-    if (gameState.names.some(n => n.toLowerCase() === name.toLowerCase())) return `¡"${name}" YA ESTÁ EN LA LISTA!`;
+    const error = checkName(gameState.names, text, maxPlayers);
+    if (error) return error;
 
-    gameState.names.push(name);
+    gameState.names.push(text.trim());
     return "";
 }
 
@@ -404,7 +402,6 @@ startGameBtn.addEventListener('click', () => {
 initSegments();
 
 // --- LÓGICA DE CAPTURA Y JUEGO ---
-const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function openGameScreen() {
@@ -418,7 +415,7 @@ function openGameScreen() {
 }
 
 function resetEncounter() {
-    if (gameState.pending.length === 0 && gameState.teams.length === gameState.names.length) {
+    if (isGameFinished(gameState.pending, gameState.teams, gameState.names)) {
         showFinalScreen();
         return;
     }
@@ -453,8 +450,7 @@ async function catchPokemon() {
     btnCatch.classList.remove('ready');
     btnTeams.disabled = true;
 
-    const index = randomInt(0, gameState.pending.length - 1);
-    const name = gameState.pending.splice(index, 1)[0];
+    const name = drawName(gameState.pending);
     
     gameState.usedIds.add(currentWildPokemon.id);
     gameState.lastCaughtName = name;
@@ -545,7 +541,7 @@ function openTeams() {
         teamList.appendChild(createTeamCard(name));
     }
 
-    const isFinished = gameState.pending.length === 0 && gameState.teams.length === gameState.names.length;
+    const isFinished = isGameFinished(gameState.pending, gameState.teams, gameState.names);
     btnFinish.hidden = !isFinished;
 
     if (!teamsDialog.open) teamsDialog.show();
