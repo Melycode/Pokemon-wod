@@ -1,0 +1,11 @@
+{
+  "name": "pokemon-wod",
+  "version": "1.0.0",
+  "description": "Captura Misteriosa: Wheel of Doom con Pokémon",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
