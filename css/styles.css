@@ -764,3 +764,13 @@ dialog.teams:not([open]) { display: none; }
     .final-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     .final-actions .action-btn { height: 68px; font-size: 14px; border-width: 5px; }
 }
+/* Móvil en horizontal: la pantalla es muy baja, así que dejamos hacer scroll */
+@media (orientation: landscape) and (max-height: 500px) {
+    html, body { height: auto; overflow-y: auto; }
+    .screen-container { height: auto; min-height: 100vh; padding: 16px 0; }
+    .players-screen { height: auto; gap: 16px; }
+    .players-card { max-height: none; }
+    .game-screen { height: 640px; }
+    dialog.teams { position: fixed; height: auto; max-height: calc(100vh - 20px); }
+    .final-screen { height: 640px; }
+}
