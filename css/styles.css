@@ -304,7 +304,7 @@ html, body {
 .wildTag small { font-size: 8px; color: #555; }
 
 .slot {
-    position: absolute; left: 50%; top: 46%; transform: translateX(-50%);
+    position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%);
     width: 140px; height: 140px; display: grid; place-items: center;
 }
 
@@ -312,7 +312,7 @@ html, body {
 
 .slotBall { width: 145px; height: 124px; max-width: 100%; max-height: 100%; z-index: 2; }
 
-.slotSprite { width: 180px; height: 180px; bottom: -14px; z-index: 1; }
+.slotSprite { width: min(240px, 34vh); height: min(240px, 34vh); bottom: -14px; z-index: 1; object-fit: contain; }
 
 .slotFlash {
     position: absolute; width: 170px; height: 170px; border-radius: 50%;
@@ -735,7 +735,7 @@ dialog.teams:not([open]) { display: none; }
 
     .slot { width: 220px; height: 220px; }
     .slotBall { width: 180px; height: 160px; }
-    .slotSprite { width: 220px; height: 220px; bottom: -20px; }
+    .slotSprite { width: min(300px, 32vh); height: min(300px, 32vh); bottom: -20px; }
     .slotFlash { width: 240px; height: 240px; }
 
     .dialogText { font-size: 14px; }
@@ -774,7 +774,7 @@ dialog.teams:not([open]) { display: none; }
 
     .game-screen { max-width: 1000px; }
     .slot { width: 280px; height: 280px; }
-    .slotSprite { width: 280px; height: 280px; }
+    .slotSprite { width: min(340px, 34vh); height: min(340px, 34vh); }
     .slotFlash { width: 300px; height: 300px; }
     .dialogText { font-size: 16px; }
 }
