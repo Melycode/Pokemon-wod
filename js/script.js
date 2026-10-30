@@ -378,17 +378,22 @@ fillExamplesBtn.addEventListener('click', () => {
     }
 });
 
-backBtn.addEventListener('click', () => {
+// Vuelve a la portada con el botón START
+function showStartScreen() {
     showError("");
     closeTeams();
     playersAudio.pause(); playersAudio.currentTime = 0;
     backgroundAudio.play().catch(e => console.log("Bg audio bloqueado", e));
     
     playersScreen.classList.add('hidden');
+    gameScreen.classList.add('hidden');
+    finalScreen.classList.add('hidden');
     playersBg.classList.add('hidden');
     startBg.classList.remove('hidden');
     startBtn.classList.remove('hidden');
-});
+}
+
+backBtn.addEventListener('click', showStartScreen);
 
 startGameBtn.addEventListener('click', () => {
     gameState.pending = [...gameState.names];
@@ -654,10 +659,9 @@ copyResultsBtn.addEventListener('click', async () => {
     }, 1800);
 });
 
+// Al terminar la partida se vuelve a la portada
 playAgainBtn.addEventListener('click', () => {
     clearGameState();
-    finalScreen.classList.add('hidden');
-    gameScreen.classList.add('hidden');
-    playersScreen.classList.remove('hidden');
     updatePlayersUI();
+    showStartScreen();
 });
