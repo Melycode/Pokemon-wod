@@ -553,7 +553,7 @@ function openTeams() {
     const isFinished = isGameFinished(gameState.pending, gameState.teams, gameState.names);
     btnFinish.hidden = !isFinished;
 
-    if (!teamsDialog.open) teamsDialog.show();
+    if (!teamsDialog.open) teamsDialog.showModal();
 }
 
 function closeTeams() {
@@ -563,11 +563,7 @@ function closeTeams() {
 teamsDialog.addEventListener("close", resetEncounter);
 
 btnTeams.addEventListener("click", () => {
-    if (teamsDialog.open) {
-        closeTeams();
-    } else if (gameState.phase !== "throwing") {
-        openTeams();
-    }
+    if (gameState.phase !== "throwing") openTeams();
 });
 
 btnTeamsClose.addEventListener("click", closeTeams);
@@ -577,15 +573,6 @@ btnFinish.addEventListener("click", () => {
     showFinalScreen();
 });
 
-document.addEventListener("click", (event) => {
-    if (!teamsDialog.open || gameState.phase === "throwing") return;
-    const clickInside = teamsDialog.contains(event.target) || btnTeams.contains(event.target);
-    if (!clickInside) closeTeams();
-});
-
-document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") closeTeams();
-});
 
 // --- PANTALLA FINAL Y RESULTADOS ---
 function showFinalScreen() {
