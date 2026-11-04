@@ -658,10 +658,6 @@ dialog.teams::backdrop { background: rgba(0, 0, 0, 0.6); }
     }
 }
 
-@media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation: none !important; transition: none !important; }
-}
-
 @media (min-width: 769px) {
     .start-button { width: 380px; height: 90px; }
     .start-text { font-size: 28px; text-shadow: -3px -3px 0 #000, 3px -3px 0 #000, -3px 3px 0 #000, 3px 3px 0 #000; }
