@@ -2,10 +2,8 @@ const maxPlayers = 16;
 const minPlayers = 4; 
 const throwDuration = 1600;
 
-// --- CLAVE PARA LOCALSTORAGE ---
 const STORAGE_KEY = 'mystery_catch_teams_data';
 
-// --- ESTADO INICIAL / CARGA DESDE LOCALSTORAGE ---
 function loadInitialState() {
     const savedData = localStorage.getItem(STORAGE_KEY);
     if (savedData) {
@@ -82,7 +80,6 @@ const exampleNames = [
     "Manuel", "Nerea", "Carlos", "Diego", "Alba", "Brandon", "Rafael", "Paloma"
 ];
 
-// --- ELEMENTOS DEL DOM ---
 const startBtn = document.getElementById('start-btn');
 const progressBar = document.getElementById('progress-bar');
 const startBg = document.getElementById('start-bg');
@@ -135,7 +132,6 @@ let soundOn = true;
 let currentWildPokemon = null;
 let currentWildLevel = 5;
 
-// --- SISTEMA DE SONIDO ---
 function getAudioContext() {
     if (!audioContext) audioContext = new (window.AudioContext || window.webkitAudioContext)();
     if (audioContext.state === "suspended") audioContext.resume();
@@ -197,7 +193,6 @@ function manageCookies() {
 btnAccept.addEventListener('click', manageCookies);
 btnDeny.addEventListener('click', manageCookies);
 
-// --- ANIMACIÓN BOTÓN START ---
 let interval = null;
 let emptyInterval = null;
 let progress = 0;
@@ -261,7 +256,6 @@ startBtn.addEventListener('touchstart', startPress, { passive: false });
 window.addEventListener('touchend', stopPress);
 startBtn.addEventListener('touchcancel', stopPress);
 
-// --- GESTIÓN DE JUGADORES ---
 function initSegments() {
     segmentsBar.innerHTML = '';
     for (let i = 0; i < maxPlayers; i++) {
@@ -378,7 +372,6 @@ fillExamplesBtn.addEventListener('click', () => {
     }
 });
 
-// Vuelve a la portada con el botón START
 function showStartScreen() {
     showError("");
     closeTeams();
@@ -406,7 +399,6 @@ startGameBtn.addEventListener('click', () => {
 
 initSegments();
 
-// --- LÓGICA DE CAPTURA Y JUEGO ---
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function openGameScreen() {
@@ -511,7 +503,6 @@ btnClose.addEventListener('click', () => {
     }
 });
 
-// --- DIÁLOGO DE EQUIPOS ---
 function createTeamCard(name) {
     const team = gameState.teams.find((t) => t.name === name);
 
@@ -573,8 +564,6 @@ btnFinish.addEventListener("click", () => {
     showFinalScreen();
 });
 
-
-// --- PANTALLA FINAL Y RESULTADOS ---
 function showFinalScreen() {
     closeTeams();
     gameScreen.classList.add('hidden');
@@ -646,7 +635,6 @@ copyResultsBtn.addEventListener('click', async () => {
     }, 1800);
 });
 
-// Al terminar la partida se vuelve a la portada
 playAgainBtn.addEventListener('click', () => {
     clearGameState();
     updatePlayersUI();

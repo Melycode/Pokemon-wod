@@ -117,7 +117,6 @@ html, body {
     width: 100%;
 }
 
-
 .cookie-btn {
     font-family: 'Press Start 2P', monospace;
     font-size: 10px;
@@ -131,8 +130,6 @@ html, body {
 
 .cookie-btn:hover { background-color: #365AAB; color: #FCCF01; border-color: #FCCF01; }
 .cookie-btn:active { box-shadow: 0 0 0 #000; transform: translate(-3px, 3px); }
-
-
 
 .players-screen, .game-screen {
     position: relative;
@@ -287,8 +284,6 @@ html, body {
 
 .primary-btn.ready { background-color: #FCCF01; color: #000000; }
 
-
-
 .encounter { flex: 1; position: relative; }
 
 .wildTag {
@@ -349,9 +344,6 @@ html, body {
 
 .btnBig { display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 12px; height: 54px; }
 
-
-
-/* Equipos: ventana centrada encima del juego */
 dialog.teams {
     position: fixed;
     inset: 0;
@@ -532,8 +524,6 @@ dialog.teams::backdrop { background: rgba(0, 0, 0, 0.6); }
     display: none; 
 }
 
-
-
 .final-screen {
     position: relative;
     z-index: 25;
@@ -660,15 +650,13 @@ dialog.teams::backdrop { background: rgba(0, 0, 0, 0.6); }
         filter: brightness(1);
     }
     50% {
-        filter: brightness(2) drop-shadow(0 0 10px #ffffff); /* Destello blanco de captura */
+        filter: brightness(2) drop-shadow(0 0 10px #ffffff);
     }
     100% {
         transform: scale(0.1);
         opacity: 0;
     }
 }
-
-
 
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
@@ -755,7 +743,6 @@ dialog.teams::backdrop { background: rgba(0, 0, 0, 0.6); }
     .final-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     .final-actions .action-btn { height: 68px; font-size: 14px; border-width: 5px; }
 }
-/* Pantallas grandes (a partir de 1200px) */
 @media (min-width: 1200px) {
     .start-button { width: 460px; height: 100px; }
     .start-text { font-size: 34px; }
@@ -767,7 +754,6 @@ dialog.teams::backdrop { background: rgba(0, 0, 0, 0.6); }
     .dialogText { font-size: 16px; }
 }
 
-/* Móvil en horizontal: la pantalla es muy baja, así que dejamos hacer scroll */
 @media (orientation: landscape) and (max-height: 500px) {
     html, body { height: auto; overflow-y: auto; }
     .screen-container { height: auto; min-height: 100vh; padding: 16px 0; }
