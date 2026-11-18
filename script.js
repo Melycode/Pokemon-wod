@@ -31,6 +31,61 @@ const LOCAL_POKEMON_LIST = [
     { id: 16, name: "Mewtwo", sprite: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/150.gif" }
 ];
 
+// Los GIF tienen mucho borde transparente y cada uno es distinto:
+// unos Pokémon salen pequeños, otros grandes y otros "flotando".
+// Esta función mide la parte que se ve del GIF y lo coloca para que
+// todos ocupen lo mismo y tengan los pies en el suelo (abajo del hueco).
+function fitSprite(img) {
+    const width = img.naturalWidth;
+    const height = img.naturalHeight;
+
+    // Dibujamos el GIF en un canvas para poder leer sus píxeles
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    const context = canvas.getContext("2d");
+    context.drawImage(img, 0, 0);
+
+    let pixels;
+    try {
+        pixels = context.getImageData(0, 0, width, height).data;
+    } catch (error) {
+        return; // si el navegador no deja leer la imagen, se queda como estaba
+    }
+
+    // Buscamos el primer y el último píxel que no es transparente
+    let top = height;
+    let bottom = -1;
+    let left = width;
+    let right = -1;
+
+    for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+            const alpha = pixels[(y * width + x) * 4 + 3];
+            if (alpha > 0) {
+                if (y < top) top = y;
+                if (y > bottom) bottom = y;
+                if (x < left) left = x;
+                if (x > right) right = x;
+            }
+        }
+    }
+
+    if (bottom === -1) return; // imagen vacía
+
+    const pokemonWidth = right - left + 1;
+    const pokemonHeight = bottom - top + 1;
+    const biggestSide = Math.max(pokemonWidth, pokemonHeight);
+
+    // El lado más largo del Pokémon ocupa el 80% del alto del hueco
+    img.style.height = (80 * height / biggestSide) + "%";
+
+    // Centramos el Pokémon y bajamos el GIF lo que mide su borde de abajo
+    const centerX = (left + right + 1) / 2 / width * 100;
+    const emptyBelow = (height - 1 - bottom) / height * 100;
+    img.style.translate = "-" + centerX + "% " + emptyBelow + "%";
+}
+
 const exampleNames = [
     "Julián", "Melisa", "Nacho", "Alfonso", "Jaime", "Luis", "Daniel", "Dani", 
     "Manuel", "Nerea", "Carlos", "Diego", "Alba", "Brandon", "Rafel", "Paloma"
@@ -68,6 +123,7 @@ const wildName = document.getElementById('wildName');
 const wildLevel = document.getElementById('wildLevel');
 const slot = document.getElementById('slot');
 const sprite = document.getElementById('sprite');
+sprite.addEventListener('load', () => fitSprite(sprite));
 const dialogText = document.getElementById('dialogText');
 const btnCatch = document.getElementById('btnCatch');
 const catchLabel = document.getElementById('catchLabel');
@@ -463,7 +519,7 @@ function createTeamCard(name) {
     let image = '<span class="placeholder">?</span>';
 
     if (team) {
-        image = `<img src="${team.sprite}" alt="${team.pokemon}">`;
+        image = `<img src="${team.sprite}" alt="${team.pokemon}" crossorigin="anonymous">`;
 
         if (name === gameState.lastCaughtName) {
             cardClass = "teamCard isNew";
@@ -482,6 +538,11 @@ function createTeamCard(name) {
         <span class="statusBadge">${status}</span>
     `;
     li.querySelector(".playerName").textContent = name;
+
+    const img = li.querySelector("img");
+    if (img) {
+        img.addEventListener("load", () => fitSprite(img));
+    }
     return li;
 }
 
@@ -550,6 +611,8 @@ function showFinalScreen() {
 
         if (team) {
             const img = document.createElement('img');
+            img.crossOrigin = "anonymous";
+            img.addEventListener('load', () => fitSprite(img));
             img.src = team.sprite;
             img.alt = team.pokemon;
             slotEl.appendChild(img);
