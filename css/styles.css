@@ -723,7 +723,7 @@ dialog.teams::backdrop { background: rgba(0, 0, 0, 0.6); }
         border-radius: 32px;
     }
     
-    .teamGrid { grid-auto-rows: minmax(140px, 1fr); }
+    .teamGrid { grid-auto-rows: minmax(120px, 1fr); }
     .cardImgSlot { min-height: 90px; }
     .teamCard.isPending .placeholder { width: 80px; height: 80px; font-size: 34px; }
 
