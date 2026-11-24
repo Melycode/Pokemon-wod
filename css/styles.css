@@ -340,7 +340,7 @@ html, body {
 
 .dialog-card { max-height: max-content; margin-bottom: 0; }
 
-.dialogText { font-size: 10px; line-height: 1.6; margin-bottom: 12px; text-align: center; }
+.dialogText { font-size: 10px; line-height: 1.6; margin-bottom: 12px; text-align: center; white-space: pre-line; }
 
 .btnBig { display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 12px; height: 54px; }
 

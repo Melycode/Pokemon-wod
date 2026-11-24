@@ -32,8 +32,10 @@ function loadInitialState() {
 }
 
 let gameState = loadInitialState();
+let cookiesAccepted = false;
 
 function saveGameState() {
+    if (!cookiesAccepted) return;
     const dataToSave = {
         names: gameState.names,
         pending: gameState.pending,
@@ -183,15 +185,25 @@ function startBackgroundMusic() {
     backgroundAudio.play().catch(e => console.log("Autoplay bloqueado", e));
 }
 
-function manageCookies() {
+function acceptCookies() {
+    cookiesAccepted = true;
+    closeCookies();
+}
+
+function denyCookies() {
+    localStorage.removeItem(STORAGE_KEY);
+    closeCookies();
+}
+
+function closeCookies() {
     cookieBanner.classList.add('hidden');
     shadowOverlay.classList.add('hidden');
     updatePlayersUI();
     startBackgroundMusic();
 }
 
-btnAccept.addEventListener('click', manageCookies);
-btnDeny.addEventListener('click', manageCookies);
+btnAccept.addEventListener('click', acceptCookies);
+btnDeny.addEventListener('click', denyCookies);
 
 let interval = null;
 let emptyInterval = null;
@@ -466,9 +478,9 @@ async function catchPokemon() {
 
     wildName.textContent = name;
     if (gameState.pending.length === 0) {
-        dialogText.innerHTML = `¡Atrapado!<br>${currentWildPokemon.name} es para ${name}.<br>¡${name} ha sido el último!`;
+        dialogText.textContent = `¡Atrapado!\n${currentWildPokemon.name} es para ${name}.\n¡${name} ha sido el último!`;
     } else {
-        dialogText.innerHTML = `¡Atrapado!<br>${currentWildPokemon.name} es para ${name}.`;
+        dialogText.textContent = `¡Atrapado!\n${currentWildPokemon.name} es para ${name}.`;
     }
 
     gameState.teams.push({
